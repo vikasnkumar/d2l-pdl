@@ -36,7 +36,7 @@ This interpreter loads all the required functions you will need.
 
 ```bash
 $ perldl
-pdl>use PDL::AutoLoader
+pdl> use PDL::AutoLoader
 pdl>
 ```
 
@@ -65,61 +65,17 @@ pdl> print $x
 [0 1 2 3 4 5 6 7 8 9 10 11]
 ```
 
-```{.python .input}
-%%tab pytorch
-x = torch.arange(12, dtype=torch.float32)
-x
-```
-
-```{.python .input}
-%%tab tensorflow
-x = tf.range(12, dtype=tf.float32)
-x
-```
-
-```{.python .input}
-%%tab jax
-x = jnp.arange(12)
-x
-```
-
-:begin_tab:`mxnet`
 Each of these values is called
 an *element* of the tensor.
 The tensor `x` contains 12 elements.
 We can inspect the total number of elements 
-in a tensor via its `size` attribute.
-:end_tab:
+in a tensor via its `dims` attribute or using the `dims` function.
 
-:begin_tab:`pytorch`
-Each of these values is called
-an *element* of the tensor.
-The tensor `x` contains 12 elements.
-We can inspect the total number of elements 
-in a tensor via its `numel` method.
-:end_tab:
-
-:begin_tab:`tensorflow`
-Each of these values is called
-an *element* of the tensor.
-The tensor `x` contains 12 elements.
-We can inspect the total number of elements 
-in a tensor via the `size` function.
-:end_tab:
-
-```{.python .input}
-%%tab mxnet, jax
-x.size
-```
-
-```{.python .input}
-%%tab pytorch
-x.numel()
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.size(x)
+```perl
+pdl> print $x->dims
+12
+pdl> print dims($x)
+12
 ```
 
 (**We can access a tensor's *shape***) 
@@ -129,33 +85,43 @@ Because we are dealing with a vector here,
 the `shape` contains just a single element
 and is identical to the size.
 
-```{.python .input}
-%%tab all
-x.shape
+```perl
+pdl> print $x->shape
+[12]
 ```
 
 We can [**change the shape of a tensor
 without altering its size or values**],
 by invoking `reshape`.
 For example, we can transform 
-our vector `x` whose shape is (12,) 
-to a matrix `X`  with shape (3, 4).
+our vector `x` whose shape is `[12]`
+to a matrix `X`  with shape `(3, 4)`.
+PDL stores the data in column major form, so we have to swap the rows and
+columns.
 This new tensor retains all elements
 but reconfigures them into a matrix.
 Notice that the elements of our vector
 are laid out one row at a time and thus
-`x[3] == X[0, 3]`.
+`x[3] == X[3, 0]`.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-X = x.reshape(3, 4)
-X
-```
-
-```{.python .input}
-%%tab tensorflow
-X = tf.reshape(x, (3, 4))
-X
+```perl
+pdl> $X = $x->reshape(4,3)
+pdl> print $X
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
+pdl> print $X(3,0)
+[
+ [3]
+]
+pdl> print $X(3)
+[
+ [ 3]
+ [ 7]
+ [11]
+]
 ```
 
 Note that specifying every shape component
