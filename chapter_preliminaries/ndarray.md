@@ -1,10 +1,4 @@
-```{.python .input}
-%load_ext d2lbook.tab
-tab.interact_select(['mxnet', 'pytorch', 'tensorflow', 'jax'])
-```
-
 # Data Manipulation
-:label:`sec_ndarray`
 
 In order to get anything done, 
 we need some way to store and manipulate data.
@@ -34,68 +28,29 @@ These properties make neural networks
 both easy to code and fast to run.
 
 
-
 ## Getting Started
 
-:begin_tab:`mxnet`
-To start, we import the `np` (`numpy`) and
-`npx` (`numpy_extension`) modules from MXNet.
-Here, the `np` module includes 
-functions supported by NumPy,
-while the `npx` module contains a set of extensions
-developed to empower deep learning 
-within a NumPy-like environment.
-When using tensors, we almost always 
-invoke the `set_np` function:
-this is for compatibility of tensor processing 
-by other components of MXNet.
-:end_tab:
+To start, we can test this on the `perldl` interpreter that comes with
+installing `PDL`, as that would make this process very easy.
+This interpreter loads all the required functions you will need.
 
-:begin_tab:`pytorch`
-(**To start, we import the PyTorch library.
-Note that the package name is `torch`.**)
-:end_tab:
-
-:begin_tab:`tensorflow`
-To start, we import `tensorflow`. 
-For brevity, practitioners 
-often assign the alias `tf`.
-:end_tab:
-
-```{.python .input}
-%%tab mxnet
-from mxnet import np, npx
-npx.set_np()
+```bash
+$ perldl
+pdl>use PDL::AutoLoader
+pdl>
 ```
 
-```{.python .input}
-%%tab pytorch
-import torch
-```
-
-```{.python .input}
-%%tab tensorflow
-import tensorflow as tf
-```
-
-```{.python .input}
-%%tab jax
-import jax
-from jax import numpy as jnp
-```
-
-[**A tensor represents a (possibly multidimensional) array of numerical values.**]
+**A tensor represents a (possibly multidimensional) array of numerical values.**
 In the one-dimensional case, i.e., when only one axis is needed for the data,
 a tensor is called a *vector*.
 With two axes, a tensor is called a *matrix*.
 With $k > 2$ axes, we drop the specialized names
 and just refer to the object as a $k^\textrm{th}$-*order tensor*.
 
-:begin_tab:`mxnet`
-MXNet provides a variety of functions 
+PDL provides a variety of functions 
 for creating new tensors 
 prepopulated with values. 
-For example, by invoking `arange(n)`,
+For example, by invoking `xvals(n)`,
 we can create a vector of evenly spaced values,
 starting at 0 (included) 
 and ending at `n` (not included).
@@ -103,40 +58,11 @@ By default, the interval size is $1$.
 Unless otherwise specified, 
 new tensors are stored in main memory 
 and designated for CPU-based computation.
-:end_tab:
 
-:begin_tab:`pytorch`
-PyTorch provides a variety of functions 
-for creating new tensors 
-prepopulated with values. 
-For example, by invoking `arange(n)`,
-we can create a vector of evenly spaced values,
-starting at 0 (included) 
-and ending at `n` (not included).
-By default, the interval size is $1$.
-Unless otherwise specified, 
-new tensors are stored in main memory 
-and designated for CPU-based computation.
-:end_tab:
-
-:begin_tab:`tensorflow`
-TensorFlow provides a variety of functions 
-for creating new tensors 
-prepopulated with values. 
-For example, by invoking `range(n)`,
-we can create a vector of evenly spaced values,
-starting at 0 (included) 
-and ending at `n` (not included).
-By default, the interval size is $1$.
-Unless otherwise specified, 
-new tensors are stored in main memory 
-and designated for CPU-based computation.
-:end_tab:
-
-```{.python .input}
-%%tab mxnet
-x = np.arange(12)
-x
+```perl
+pdl> $x = xvals(12)
+pdl> print $x 
+[0 1 2 3 4 5 6 7 8 9 10 11]
 ```
 
 ```{.python .input}
@@ -887,18 +813,3 @@ Tensors provide a variety of functionalities including construction routines; in
 1. Run the code in this section. Change the conditional statement `X == Y` to `X < Y` or `X > Y`, and then see what kind of tensor you can get.
 1. Replace the two tensors that operate by element in the broadcasting mechanism with other shapes, e.g., 3-dimensional tensors. Is the result the same as expected?
 
-:begin_tab:`mxnet`
-[Discussions](https://discuss.d2l.ai/t/26)
-:end_tab:
-
-:begin_tab:`pytorch`
-[Discussions](https://discuss.d2l.ai/t/27)
-:end_tab:
-
-:begin_tab:`tensorflow`
-[Discussions](https://discuss.d2l.ai/t/187)
-:end_tab:
-
-:begin_tab:`jax`
-[Discussions](https://discuss.d2l.ai/t/17966)
-:end_tab:
