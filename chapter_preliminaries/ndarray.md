@@ -50,7 +50,7 @@ and just refer to the object as a $$k^\textrm{th}$$-*order tensor*.
 PDL provides a variety of functions 
 for creating new tensors 
 prepopulated with values. 
-For example, by invoking `xvals(n)`,
+For example, by invoking `xvals(n)` or `sequence(n)`,
 we can create a vector of evenly spaced values,
 starting at 0 (included) 
 and ending at `n` (not included).
@@ -62,6 +62,8 @@ and designated for CPU-based computation.
 ```perl
 pdl> $x = xvals(12)
 pdl> print $x 
+[0 1 2 3 4 5 6 7 8 9 10 11]
+pdl> $x = sequence 12
 [0 1 2 3 4 5 6 7 8 9 10 11]
 ```
 
@@ -213,12 +215,12 @@ pdl> print pdl([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
 
 ## Indexing and Slicing
 
-As with  Python lists,
+As with  Perl/Python lists,
 we can access tensor elements 
 by indexing (starting with 0).
 To access an element based on its position
 relative to the end of the list,
-we can use negative indexing.
+we can use negative indexing using `PDL::NiceSlice`.
 Finally, we can access whole ranges of indices 
 via slicing (e.g., `X[start:stop]`), 
 where the returned value includes 
@@ -227,77 +229,57 @@ Finally, when only one index (or slice)
 is specified for a $$k^\textrm{th}$$-order tensor,
 it is applied along axis 0.
 Thus, in the following code,
-[**`[-1]` selects the last row and `[1:3]`
+[**`(,-1)` selects the last row and `(,1:2)`
 selects the second and third rows**].
+You can select columns like `(1,-1)` and `(1,1:2)`
 
-```{.python .input}
-%%tab all
-X[-1], X[1:3]
-```
-
-:begin_tab:`mxnet, pytorch`
-Beyond reading them, (**we can also *write* elements of a matrix by specifying indices.**)
-:end_tab:
-
-:begin_tab:`tensorflow`
-`Tensors` in TensorFlow are immutable, and cannot be assigned to.
-`Variables` in TensorFlow are mutable containers of state that support
-assignments. Keep in mind that gradients in TensorFlow do not flow backwards
-through `Variable` assignments.
-
-Beyond assigning a value to the entire `Variable`, we can write elements of a
-`Variable` by specifying indices.
-:end_tab:
-
-```{.python .input}
-%%tab mxnet, pytorch
-X[1, 2] = 17
-X
-```
-
-```{.python .input}
-%%tab tensorflow
-X_var = tf.Variable(X)
-X_var[1, 2].assign(9)
-X_var
-```
-
-```{.python .input}
-%%tab jax
-# JAX arrays are immutable. jax.numpy.ndarray.at index
-# update operators create a new array with the corresponding
-# modifications made
-X_new_1 = X.at[1, 2].set(17)
-X_new_1
+```perl
+pdl> print $X(, 1:2)
+[
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
+pdl> print $X(, -1)
+[
+ [ 8  9 10 11]
+]
+## remove the extra nesting
+pdl> print $X(:,(-1))
+[8 9 10 11]
+pdl> print $X(1,1:2)
+[
+ [5]
+ [9]
+]
+pdl> print $X(1,-1)
+[
+ [9]
+]
+pdl> print $X(1:1, (-1))
+[9]
 ```
 
 If we want [**to assign multiple elements the same value,
 we apply the indexing on the left-hand side 
 of the assignment operation.**]
-For instance, `[:2, :]`  accesses 
+For instance, `(:,0:1)`  accesses 
 the first and second rows,
 where `:` takes all the elements along axis 1 (column).
 While we discussed indexing for matrices,
 this also works for vectors
 and for tensors of more than two dimensions.
+The `.` operator does assignment in `PDL`.
 
-```{.python .input}
-%%tab mxnet, pytorch
-X[:2, :] = 12
-X
-```
+```perl
+pdl> $X(:,0:1) .= 12
 
-```{.python .input}
-%%tab tensorflow
-X_var = tf.Variable(X)
-X_var[:2, :].assign(tf.ones(X_var[:2,:].shape, dtype=tf.float32) * 12)
-X_var
-```
+pdl> print $X
 
-```{.python .input}
-%%tab jax
-X_new_2 = X_new_1.at[:2, :].set(12)
-X_new_2
+[
+ [12 12 12 12]
+ [12 12 12 12]
+ [ 8  9 10 11]
+]
 ```
 
 ## Operations
