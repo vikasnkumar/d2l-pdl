@@ -131,58 +131,46 @@ we can work out one component of the shape given the rest.
 For example, given a tensor of size $$n$$
 and target shape ($$h$$, $$w$$),
 we know that $$w = n/h$$.
-To automatically infer one component of the shape,
-we can place a `-1` for the shape component
-that should be inferred automatically.
-In our case, instead of calling `x.reshape(3, 4)`,
-we could have equivalently called `x.reshape(-1, 4)` or `x.reshape(3, -1)`.
 
 Practitioners often need to work with tensors
 initialized to contain all 0s or 1s.
 [**We can construct a tensor with all elements set to 0**] (~~or one~~)
-and a shape of (2, 3, 4) via the `zeros` function.
+and a shape of (4, 3, 2) via the `zeroes` function.
 
-```{.python .input}
-%%tab mxnet
-np.zeros((2, 3, 4))
-```
-
-```{.python .input}
-%%tab pytorch
-torch.zeros((2, 3, 4))
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.zeros((2, 3, 4))
-```
-
-```{.python .input}
-%%tab jax
-jnp.zeros((2, 3, 4))
+```perl
+pdl> print zeroes(4,3,2)
+[
+ [
+  [0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]
+ ]
+ [
+  [0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]
+ ]
+]
 ```
 
 Similarly, we can create a tensor 
 with all 1s by invoking `ones`.
 
-```{.python .input}
-%%tab mxnet
-np.ones((2, 3, 4))
-```
+```perl
+pdl> print ones(4,3,2)
 
-```{.python .input}
-%%tab pytorch
-torch.ones((2, 3, 4))
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.ones((2, 3, 4))
-```
-
-```{.python .input}
-%%tab jax
-jnp.ones((2, 3, 4))
+[
+ [
+  [1 1 1 1]
+  [1 1 1 1]
+  [1 1 1 1]
+ ]
+ [
+  [1 1 1 1]
+  [1 1 1 1]
+  [1 1 1 1]
+ ]
+]
 ```
 
 We often wish to 
@@ -195,27 +183,14 @@ with elements drawn from
 a standard Gaussian (normal) distribution
 with mean 0 and standard deviation 1.
 
-```{.python .input}
-%%tab mxnet
-np.random.normal(0, 1, size=(3, 4))
-```
+```perl
+pdl> print grandom(4,3)
 
-```{.python .input}
-%%tab pytorch
-torch.randn(3, 4)
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.random.normal(shape=[3, 4])
-```
-
-```{.python .input}
-%%tab jax
-# Any call of a random function in JAX requires a key to be
-# specified, feeding the same key to a random function will
-# always result in the same sample being generated
-jax.random.normal(jax.random.PRNGKey(0), (3, 4))
+[
+ [        -0.63968335          0.42479337         -0.81623105        -0.010018838]
+ [        -0.34909049          0.57365255          0.32526079          0.68310597]
+ [          1.0762051           2.3493898          0.53131591          -1.1742487]
+]
 ```
 
 Finally, we can construct tensors by
@@ -226,24 +201,14 @@ Here, we construct a matrix with a list of lists,
 where the outermost list corresponds to axis 0,
 and the inner list corresponds to axis 1.
 
-```{.python .input}
-%%tab mxnet
-np.array([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-```
+```perl
+pdl> print pdl([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
 
-```{.python .input}
-%%tab pytorch
-torch.tensor([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.constant([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-```
-
-```{.python .input}
-%%tab jax
-jnp.array([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+[
+ [2 1 4 3]
+ [1 2 3 4]
+ [4 3 2 1]
+]
 ```
 
 ## Indexing and Slicing
