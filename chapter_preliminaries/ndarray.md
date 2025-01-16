@@ -9,7 +9,7 @@ and (ii) process them once they are inside the computer.
 There is no point in acquiring data 
 without some way to store it, 
 so to start, let's get our hands dirty
-with $n$-dimensional arrays, 
+with $$n$$-dimensional arrays, 
 which we also call *tensors*.
 If you already know the NumPy 
 scientific computing package, 
@@ -44,8 +44,8 @@ pdl>
 In the one-dimensional case, i.e., when only one axis is needed for the data,
 a tensor is called a *vector*.
 With two axes, a tensor is called a *matrix*.
-With $k > 2$ axes, we drop the specialized names
-and just refer to the object as a $k^\textrm{th}$-*order tensor*.
+With $$k > 2$$ axes, we drop the specialized names
+and just refer to the object as a $$k^\textrm{th}$$-*order tensor*.
 
 PDL provides a variety of functions 
 for creating new tensors 
@@ -54,7 +54,7 @@ For example, by invoking `xvals(n)`,
 we can create a vector of evenly spaced values,
 starting at 0 (included) 
 and ending at `n` (not included).
-By default, the interval size is $1$.
+By default, the interval size is $$1$$.
 Unless otherwise specified, 
 new tensors are stored in main memory 
 and designated for CPU-based computation.
@@ -128,9 +128,9 @@ Note that specifying every shape component
 to `reshape` is redundant.
 Because we already know our tensor's size,
 we can work out one component of the shape given the rest.
-For example, given a tensor of size $n$
-and target shape ($h$, $w$),
-we know that $w = n/h$.
+For example, given a tensor of size $$n$$
+and target shape ($$h$$, $$w$$),
+we know that $$w = n/h$$.
 To automatically infer one component of the shape,
 we can place a `-1` for the shape component
 that should be inferred automatically.
@@ -259,7 +259,7 @@ via slicing (e.g., `X[start:stop]`),
 where the returned value includes 
 the first index (`start`) *but not the last* (`stop`).
 Finally, when only one index (or slice)
-is specified for a $k^\textrm{th}$-order tensor,
+is specified for a $$k^\textrm{th}$$-order tensor,
 it is applied along axis 0.
 Thus, in the following code,
 [**`[-1]` selects the last row and `[1:3]`
@@ -355,10 +355,10 @@ from a scalar to a scalar.
 In mathematical notation, we denote such
 *unary* scalar operators (taking one input)
 by the signature 
-$f: \mathbb{R} \rightarrow \mathbb{R}$.
+$$f: \mathbb{R} \rightarrow \mathbb{R}$$.
 This just means that the function maps
 from any real number onto some other real number.
-Most standard operators, including unary ones like $e^x$, can be applied elementwise.
+Most standard operators, including unary ones like $$e^x$$, can be applied elementwise.
 
 ```{.python .input}
 %%tab mxnet
@@ -384,16 +384,16 @@ Likewise, we denote *binary* scalar operators,
 which map pairs of real numbers
 to a (single) real number
 via the signature 
-$f: \mathbb{R}, \mathbb{R} \rightarrow \mathbb{R}$.
-Given any two vectors $\mathbf{u}$ 
-and $\mathbf{v}$ *of the same shape*,
-and a binary operator $f$, we can produce a vector
-$\mathbf{c} = F(\mathbf{u},\mathbf{v})$
-by setting $c_i \gets f(u_i, v_i)$ for all $i$,
-where $c_i, u_i$, and $v_i$ are the $i^\textrm{th}$ elements
-of vectors $\mathbf{c}, \mathbf{u}$, and $\mathbf{v}$.
+$$f: \mathbb{R}, \mathbb{R} \rightarrow \mathbb{R}$$.
+Given any two vectors $$\mathbf{u}$$ 
+and $$\mathbf{v}$$ *of the same shape*,
+and a binary operator $$f$$, we can produce a vector
+$$\mathbf{c} = F(\mathbf{u},\mathbf{v})$$
+by setting $$c_i \gets f(u_i, v_i)$$ for all $$i$$,
+where $$c_i, u_i$$, and $$v_i$$ are the $$i^\textrm{th}$$ elements
+of vectors $$\mathbf{c}, \mathbf{u}$$, and $$\mathbf{v}$$.
 Here, we produced the vector-valued
-$F: \mathbb{R}^d, \mathbb{R}^d \rightarrow \mathbb{R}^d$
+$$F: \mathbb{R}^d, \mathbb{R}^d \rightarrow \mathbb{R}^d$$
 by *lifting* the scalar function
 to an elementwise vector operation.
 The common standard arithmetic operators
@@ -444,10 +444,10 @@ and tell the system along which axis to concatenate.
 The example below shows what happens when we concatenate
 two matrices along rows (axis 0)
 instead of columns (axis 1).
-We can see that the first output's axis-0 length ($6$)
-is the sum of the two input tensors' axis-0 lengths ($3 + 3$);
-while the second output's axis-1 length ($8$)
-is the sum of the two input tensors' axis-1 lengths ($4 + 4$).
+We can see that the first output's axis-0 length ($$6$$)
+is the sum of the two input tensors' axis-0 lengths ($$3 + 3$$);
+while the second output's axis-1 length ($$8$$)
+is the sum of the two input tensors' axis-1 lengths ($$4 + 4$$).
 
 ```{.python .input}
 %%tab mxnet
@@ -548,10 +548,10 @@ b = jnp.arange(2).reshape((1, 2))
 a, b
 ```
 
-Since `a` and `b` are $3\times1$ 
-and $1\times2$ matrices, respectively,
+Since `a` and `b` are $$3\times1$$ 
+and $$1\times2$$ matrices, respectively,
 their shapes do not match up.
-Broadcasting produces a larger $3\times2$ matrix 
+Broadcasting produces a larger $$3\times2$$ matrix 
 by replicating matrix `a` along the columns
 and matrix `b` along the rows
 before adding them elementwise.
