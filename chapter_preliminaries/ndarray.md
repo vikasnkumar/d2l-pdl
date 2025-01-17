@@ -435,7 +435,6 @@ pdl> print $x1->sum
 ```
 
 ## Broadcasting
-:label:`subsec_broadcasting`
 
 By now, you know how to perform 
 elementwise binary operations
