@@ -307,24 +307,15 @@ This just means that the function maps
 from any real number onto some other real number.
 Most standard operators, including unary ones like $$e^x$$, can be applied elementwise.
 
-```{.python .input}
-%%tab mxnet
-np.exp(x)
-```
+```perl
+pdl> print $x->exp
 
-```{.python .input}
-%%tab pytorch
-torch.exp(x)
-```
+[
+ [               1        2.7182818        7.3890561        20.085537]
+ [        54.59815        148.41316        403.42879        1096.6332]
+ [        2980.958        8103.0839        22026.466        59874.142]
+]
 
-```{.python .input}
-%%tab tensorflow
-tf.exp(x)
-```
-
-```{.python .input}
-%%tab jax
-jnp.exp(x)
 ```
 
 Likewise, we denote *binary* scalar operators,
@@ -350,78 +341,72 @@ and exponentiation (`**`)
 have all been *lifted* to elementwise operations
 for identically-shaped tensors of arbitrary shape.
 
-```{.python .input}
-%%tab mxnet
-x = np.array([1, 2, 4, 8])
-y = np.array([2, 2, 2, 2])
-x + y, x - y, x * y, x / y, x ** y
-```
-
-```{.python .input}
-%%tab pytorch
-x = torch.tensor([1.0, 2, 4, 8])
-y = torch.tensor([2, 2, 2, 2])
-x + y, x - y, x * y, x / y, x ** y
-```
-
-```{.python .input}
-%%tab tensorflow
-x = tf.constant([1.0, 2, 4, 8])
-y = tf.constant([2.0, 2, 2, 2])
-x + y, x - y, x * y, x / y, x ** y
-```
-
-```{.python .input}
-%%tab jax
-x = jnp.array([1.0, 2, 4, 8])
-y = jnp.array([2, 2, 2, 2])
-x + y, x - y, x * y, x / y, x ** y
+```perl
+pdl> print sequence(4)
+[0 1 2 3]
+pdl> $x = 2 ** sequence(4)
+pdl> print $x
+[1 2 4 8]
+pdl> $y = 2 * ones(4)
+[2 2 2 2]
+pdl> print $x + $y, $x - $y, $x * $y, $x / $y, $x ** $y
+[3 4 6 10] [-1 0 2 6] [2 4 8 16] [0.5 1 2 4] [1 4 16 64]
 ```
 
 In addition to elementwise computations,
 we can also perform linear algebraic operations,
 such as dot products and matrix multiplications.
 We will elaborate on these
-in :numref:`sec_linear-algebra`.
+in the [linear algebra section](linear-algebra.md).
 
 We can also [***concatenate* multiple tensors,**]
 stacking them end-to-end to form a larger one.
 We just need to provide a list of tensors
 and tell the system along which axis to concatenate.
 The example below shows what happens when we concatenate
-two matrices along rows (axis 0)
-instead of columns (axis 1).
+two matrices along rows (axis 0 in Python, dim 1 in `PDL`)
+instead of columns (axis 1 in Python, dim 0 in `PDL`).
+In `PDL` the axes are swapped because of column-major notation.
 We can see that the first output's axis-0 length ($$6$$)
 is the sum of the two input tensors' axis-0 lengths ($$3 + 3$$);
 while the second output's axis-1 length ($$8$$)
 is the sum of the two input tensors' axis-1 lengths ($$4 + 4$$).
 
-```{.python .input}
-%%tab mxnet
-X = np.arange(12).reshape(3, 4)
-Y = np.array([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-np.concatenate([X, Y], axis=0), np.concatenate([X, Y], axis=1)
-```
+```perl
+pdl> $x1 = sequence(12)->reshape(4,3)
+pdl> print $x1
 
-```{.python .input}
-%%tab pytorch
-X = torch.arange(12, dtype=torch.float32).reshape((3,4))
-Y = torch.tensor([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-torch.cat((X, Y), dim=0), torch.cat((X, Y), dim=1)
-```
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
 
-```{.python .input}
-%%tab tensorflow
-X = tf.reshape(tf.range(12, dtype=tf.float32), (3, 4))
-Y = tf.constant([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-tf.concat([X, Y], axis=0), tf.concat([X, Y], axis=1)
-```
+pdl> $y1 = pdl([[2,1,4,3], [1,2,3,4],[4,3,2,1]])
+pdl> print $y1
 
-```{.python .input}
-%%tab jax
-X = jnp.arange(12, dtype=jnp.float32).reshape((3, 4))
-Y = jnp.array([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
-jnp.concatenate((X, Y), axis=0), jnp.concatenate((X, Y), axis=1)
+[
+ [2 1 4 3]
+ [1 2 3 4]
+ [4 3 2 1]
+]
+
+## along the row axis-1 is dim-0
+pdl> print $x1->glue(0, $y1)
+[
+ [ 0  1  2  3  2  1  4  3]
+ [ 4  5  6  7  1  2  3  4]
+ [ 8  9 10 11  4  3  2  1]
+]
+
+## along the row axis-0 is dim-1
+pdl> print $x1->glue(1, $y1)
+[
+ [ 0  1  2  3  2  1  4  3]
+ [ 4  5  6  7  1  2  3  4]
+ [ 8  9 10 11  4  3  2  1]
+]
+
 ```
 
 Sometimes, we want to 
@@ -431,21 +416,22 @@ For each position `i, j`, if `X[i, j]` and `Y[i, j]` are equal,
 then the corresponding entry in the result takes value `1`,
 otherwise it takes value `0`.
 
-```{.python .input}
-%%tab all
-X == Y
+```perl
+pdl> print $x1 == $y1
+
+[
+ [0 1 0 1]
+ [0 0 0 0]
+ [0 0 0 0]
+]
+
 ```
 
 [**Summing all the elements in the tensor**] yields a tensor with only one element.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-X.sum()
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_sum(X)
+```perl
+pdl> print $x1->sum
+66
 ```
 
 ## Broadcasting
