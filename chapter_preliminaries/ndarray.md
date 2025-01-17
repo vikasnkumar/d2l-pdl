@@ -197,7 +197,7 @@ pdl> print grandom(4,3)
 
 Finally, we can construct tensors by
 [**supplying the exact values for each element**] 
-by supplying (possibly nested) Python list(s) 
+by supplying (possibly nested) Perl list(s) 
 containing numerical literals.
 Here, we construct a matrix with a list of lists,
 where the outermost list corresponds to axis 0,
@@ -215,7 +215,7 @@ pdl> print pdl([[2,1,4,3],[1,2,3,4],[4,3,2,1]])
 
 ## Indexing and Slicing
 
-As with  Perl/Python lists,
+As with  Perl lists,
 we can access tensor elements 
 by indexing (starting with 0).
 To access an element based on its position
@@ -364,8 +364,8 @@ stacking them end-to-end to form a larger one.
 We just need to provide a list of tensors
 and tell the system along which axis to concatenate.
 The example below shows what happens when we concatenate
-two matrices along rows (axis 0 in Python, dim 1 in `PDL`)
-instead of columns (axis 1 in Python, dim 0 in `PDL`).
+two matrices along rows (axis 0 in numpy in Python, dim 1 in `PDL`)
+instead of columns (axis 1 in numpy in Python, dim 0 in `PDL`).
 In `PDL` the axes are swapped because of column-major notation.
 We can see that the first output's axis-0 length ($$6$$)
 is the sum of the two input tensors' axis-0 lengths ($$3 + 3$$);
@@ -454,31 +454,18 @@ the two tensors have the same shape;
 on the resulting arrays.
 
 ```{.python .input}
-%%tab mxnet
-a = np.arange(3).reshape(3, 1)
-b = np.arange(2).reshape(1, 2)
-a, b
-```
-
-```{.python .input}
-%%tab pytorch
-a = torch.arange(3).reshape((3, 1))
-b = torch.arange(2).reshape((1, 2))
-a, b
-```
-
-```{.python .input}
-%%tab tensorflow
-a = tf.reshape(tf.range(3), (3, 1))
-b = tf.reshape(tf.range(2), (1, 2))
-a, b
-```
-
-```{.python .input}
-%%tab jax
-a = jnp.arange(3).reshape((3, 1))
-b = jnp.arange(2).reshape((1, 2))
-a, b
+pdl> $a = sequence(3)->reshape(1,3)
+pdl> print $a
+[
+ [0]
+ [1]
+ [2]
+]
+pdl> $b = sequence(2)->reshape(2,1)
+pdl> print $b
+[
+ [0 1]
+]
 ```
 
 Since `a` and `b` are $$3\times1$$ 
@@ -489,9 +476,15 @@ by replicating matrix `a` along the columns
 and matrix `b` along the rows
 before adding them elementwise.
 
-```{.python .input}
-%%tab all
-a + b
+```perl
+pdl> print $a0 + $b0
+
+[
+ [0 1]
+ [1 2]
+ [2 3]
+]
+
 ```
 
 ## Saving Memory
@@ -501,20 +494,23 @@ allocated to host results.**]
 For example, if we write `Y = X + Y`,
 we dereference the tensor that `Y` used to point to
 and instead point `Y` at the newly allocated memory.
-We can demonstrate this issue with Python's `id()` function,
+We can demonstrate this issue with PDL's `address()` function,
 which gives us the exact address 
 of the referenced object in memory.
-Note that after we run `Y = Y + X`,
-`id(Y)` points to a different location.
-That is because Python first evaluates `Y + X`,
+Note that after we run `$Y = $Y + $X`,
+`$Y->address` points to a different location.
+That is because PDL first evaluates `$Y + $X`,
 allocating new memory for the result 
-and then points `Y` to this new location in memory.
+and then points `$Y` to this new location in memory.
 
-```{.python .input}
-%%tab all
-before = id(Y)
-Y = Y + X
-id(Y) == before
+```perl
+pdl> $before = $b0->address
+pdl> print $before
+94494728210000
+pdl> $b0 = $b0 + $a0
+pdl> print $b0->address
+pdl> print $b0->address
+94494728088496
 ```
 
 This might be undesirable for two reasons.
@@ -531,180 +527,109 @@ we must be careful to update all of these references,
 lest we spring a memory leak 
 or inadvertently refer to stale parameters.
 
-:begin_tab:`mxnet, pytorch`
-Fortunately, (**performing in-place operations**) is easy.
-We can assign the result of an operation
-to a previously allocated array `Y`
-by using slice notation: `Y[:] = <expression>`.
-To illustrate this concept, 
-we overwrite the values of tensor `Z`,
-after initializing it, using `zeros_like`,
-to have the same shape as `Y`.
-:end_tab:
+PDL has an `inplace` function that allows this but can be tricky to use.
+To force in-place semantics you need to set the `inplace` flag using
+`set_inplace()` call on the variable. Then you need to use the `.` operator to
+assign the new values and maintain the same address.
+We demonstrate this with the example below. This only works if the dimensions
+are identical for the left-hand side and right-hand side PDL objects.
 
-:begin_tab:`tensorflow`
-`Variables` are mutable containers of state in TensorFlow. They provide
-a way to store your model parameters.
-We can assign the result of an operation
-to a `Variable` with `assign`.
-To illustrate this concept, 
-we overwrite the values of `Variable` `Z`
-after initializing it, using `zeros_like`,
-to have the same shape as `Y`.
-:end_tab:
+```perl
+pdl> $x1 = sequence(12)->reshape(4,3)
+pdl> $y1 = pdl([[2,1,4,3], [1,2,3,4],[4,3,2,1]])
+pdl> print $x1
 
-```{.python .input}
-%%tab mxnet
-Z = np.zeros_like(Y)
-print('id(Z):', id(Z))
-Z[:] = X + Y
-print('id(Z):', id(Z))
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
+pdl> print $y1
+
+[
+ [2 1 4 3]
+ [1 2 3 4]
+ [4 3 2 1]
+]
+
+pdl> print $y1->dims
+4 3
+pdl> $z1 = zeroes($y1->dims)
+pdl> print $z1
+
+[
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+]
+pdl> print $z1->address
+94494728214992
+pdl> $z1->set_inplace(1)
+pdl> $z1->is_inplace()
+1
+pdl> $z1 .= $x1 + $y1
+pdl> print $z1->address
+94494728214992
 ```
 
-```{.python .input}
-%%tab pytorch
-Z = torch.zeros_like(Y)
-print('id(Z):', id(Z))
-Z[:] = X + Y
-print('id(Z):', id(Z))
-```
+If the value of `X` is not reused in subsequent computations,
+we can also use `X .= X + Y` or `X += Y`
+to reduce the memory overhead of the operation.
 
-```{.python .input}
-%%tab tensorflow
-Z = tf.Variable(tf.zeros_like(Y))
-print('id(Z):', id(Z))
-Z.assign(X + Y)
-print('id(Z):', id(Z))
-```
+PDL uses automatic garbage collection and if a variable is not needed, you can
+always set it to `undef` in Perl to automatically mark it for garbage
+collection.
 
-```{.python .input}
-%%tab jax
-# JAX arrays do not allow in-place operations
-```
+## Conversion to Other Perl Objects
 
-:begin_tab:`mxnet, pytorch`
-[**If the value of `X` is not reused in subsequent computations,
-we can also use `X[:] = X + Y` or `X += Y`
-to reduce the memory overhead of the operation.**]
-:end_tab:
-
-:begin_tab:`tensorflow`
-Even once you store state persistently in a `Variable`, 
-you may want to reduce your memory usage further by avoiding excess
-allocations for tensors that are not your model parameters.
-Because TensorFlow `Tensors` are immutable 
-and gradients do not flow through `Variable` assignments, 
-TensorFlow does not provide an explicit way to run
-an individual operation in-place.
-
-However, TensorFlow provides the `tf.function` decorator 
-to wrap computation inside of a TensorFlow graph 
-that gets compiled and optimized before running.
-This allows TensorFlow to prune unused values, 
-and to reuse prior allocations that are no longer needed. 
-This minimizes the memory overhead of TensorFlow computations.
-:end_tab:
-
-```{.python .input}
-%%tab mxnet, pytorch
-before = id(X)
-X += Y
-id(X) == before
-```
-
-```{.python .input}
-%%tab tensorflow
-@tf.function
-def computation(X, Y):
-    Z = tf.zeros_like(Y)  # This unused value will be pruned out
-    A = X + Y  # Allocations will be reused when no longer needed
-    B = A + Y
-    C = B + Y
-    return C + Y
-
-computation(X, Y)
-```
-
-## Conversion to Other Python Objects
-
-:begin_tab:`mxnet, tensorflow`
-[**Converting to a NumPy tensor (`ndarray`)**], or vice versa, is easy.
+Converting to a Perl object or vice versa, is easy.
 The converted result does not share memory.
 This minor inconvenience is actually quite important:
 when you perform operations on the CPU or on GPUs,
 you do not want to halt computation, waiting to see
-whether the NumPy package of Python 
-might want to be doing something else
+whether the PDL package might want to be doing something else
 with the same chunk of memory.
-:end_tab:
 
-:begin_tab:`pytorch`
-[**Converting to a NumPy tensor (`ndarray`)**], or vice versa, is easy.
-The torch tensor and NumPy array 
-will share their underlying memory, 
-and changing one through an in-place operation 
-will also change the other.
-:end_tab:
+```perl
+pdl> $x_arr = $x1->unpdl
+pdl> print $x_arr
+ARRAY(0x55f144b5d570)
+pdl> print ref($x_arr)
+ARRAY
+pdl> $x_pdl = pdl($x_arr)
+pdl> print $x_pdl
 
-```{.python .input}
-%%tab mxnet
-A = X.asnumpy()
-B = np.array(A)
-type(A), type(B)
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
+pdl> print ref($x_pdl)
+PDL
 ```
 
-```{.python .input}
-%%tab pytorch
-A = X.numpy()
-B = torch.from_numpy(A)
-type(A), type(B)
-```
+To convert data types we can use a qualifier on the creation.
 
-```{.python .input}
-%%tab tensorflow
-A = X.numpy()
-B = tf.constant(A)
-type(A), type(B)
-```
 
-```{.python .input}
-%%tab jax
-A = jax.device_get(X)
-B = jax.device_put(A)
-type(A), type(B)
-```
+```perl
+pdl> $x_pdl = float ($x_arr)
 
-To (**convert a size-1 tensor to a Python scalar**),
-we can invoke the `item` function or Python's built-in functions.
+pdl> print $x_pdl
 
-```{.python .input}
-%%tab mxnet
-a = np.array([3.5])
-a, a.item(), float(a), int(a)
-```
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
 
-```{.python .input}
-%%tab pytorch
-a = torch.tensor([3.5])
-a, a.item(), float(a), int(a)
-```
-
-```{.python .input}
-%%tab tensorflow
-a = tf.constant([3.5]).numpy()
-a, a.item(), float(a), int(a)
-```
-
-```{.python .input}
-%%tab jax
-a = jnp.array([3.5])
-a, a.item(), float(a), int(a)
+pdl> print $x_pdl->type
+float
 ```
 
 ## Summary
 
 The tensor class is the main interface for storing and manipulating data in deep learning libraries.
-Tensors provide a variety of functionalities including construction routines; indexing and slicing; basic mathematics operations; broadcasting; memory-efficient assignment; and conversion to and from other Python objects.
+Tensors provide a variety of functionalities including construction routines; indexing and slicing; basic mathematics operations; broadcasting; memory-efficient assignment; and conversion to and from other Perl objects.
 
 
 ## Exercises
