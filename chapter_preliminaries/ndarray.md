@@ -441,8 +441,8 @@ elementwise binary operations
 on two tensors of the same shape. 
 Under certain conditions,
 even when shapes differ, 
-we can still [**perform elementwise binary operations
-by invoking the *broadcasting mechanism*.**]
+we can still perform elementwise binary operations
+by invoking the *broadcasting mechanism*.
 Broadcasting works according to 
 the following two-step procedure:
 (i) expand one or both arrays
@@ -452,7 +452,7 @@ the two tensors have the same shape;
 (ii) perform an elementwise operation
 on the resulting arrays.
 
-```{.python .input}
+```perl
 pdl> $a = sequence(3)->reshape(1,3)
 pdl> print $a
 [
