@@ -635,7 +635,7 @@ Tensors provide a variety of functionalities including construction routines; in
 
 1. Run the code in this section. Change the conditional statement `X == Y` to `X < Y` or `X > Y`, and then see what kind of tensor you can get.
 
-_Solution:_
+    _Solution:_
 
 ```perl
 pdl> $x1 = sequence(12)->reshape(4,3)
@@ -676,7 +676,7 @@ pdl> print $x1 < $y1
 
 1. Replace the two tensors that operate by element in the broadcasting mechanism with other shapes, e.g., 3-dimensional tensors. Is the result the same as expected?
 
-_Solution:_
+    _Solution:_
 
 ```perl
 pdl> $a = sequence(3)->reshape(1,3)
@@ -701,3 +701,4 @@ pdl> print $a + $b
 
 ```
 
+[Next](linear-algebra.md)
