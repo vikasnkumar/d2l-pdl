@@ -634,5 +634,70 @@ Tensors provide a variety of functionalities including construction routines; in
 ## Exercises
 
 1. Run the code in this section. Change the conditional statement `X == Y` to `X < Y` or `X > Y`, and then see what kind of tensor you can get.
+
+_Solution:_
+
+```perl
+pdl> $x1 = sequence(12)->reshape(4,3)
+pdl> print $x1
+
+[
+ [ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+]
+
+pdl> $y1 = pdl([[2,1,4,3], [1,2,3,4],[4,3,2,1]])
+pdl> print $y1
+
+[
+ [2 1 4 3]
+ [1 2 3 4]
+ [4 3 2 1]
+]
+
+pdl> print $x1 > $y1
+
+[
+ [0 0 0 0]
+ [1 1 1 1]
+ [1 1 1 1]
+]
+
+pdl> print $x1 < $y1
+
+[
+ [1 0 1 0]
+ [0 0 0 0]
+ [0 0 0 0]
+]
+
+```
+
 1. Replace the two tensors that operate by element in the broadcasting mechanism with other shapes, e.g., 3-dimensional tensors. Is the result the same as expected?
+
+_Solution:_
+
+```perl
+pdl> $a = sequence(3)->reshape(1,3)
+pdl> print $a
+[
+ [0]
+ [1]
+ [2]
+]
+pdl> $b = sequence(3)->reshape(2,1)
+pdl> print $b
+[
+ [0 1 2]
+]
+pdl> print $a + $b
+
+[
+ [0 1 2]
+ [1 2 3]
+ [2 3 4]
+]
+
+```
 
