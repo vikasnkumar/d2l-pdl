@@ -1188,273 +1188,204 @@ any programmer.
 
 ## Success Stories
 
-Artificial intelligence has a long history of delivering results
-that would be difficult to accomplish otherwise.
-For instance, mail sorting systems
-using optical character recognition
-have been deployed since the 1990s.
-This is, after all, the source
-of the famous MNIST dataset
-of handwritten digits.
-The same applies to reading checks for bank deposits and scoring
-creditworthiness of applicants.
-Financial transactions are checked for fraud automatically.
-This forms the backbone of many e-commerce payment systems,
-such as PayPal, Stripe, AliPay, WeChat, Apple, Visa, and MasterCard.
-Computer programs for chess have been competitive for decades.
-Machine learning feeds search, recommendation, personalization,
-and ranking on the Internet.
-In other words, machine learning is pervasive, albeit often hidden from sight.
+Artificial intelligence has a long history of delivering results that would be
+difficult to accomplish otherwise.  For instance, mail sorting systems using
+optical character recognition have been deployed since the 1990s.  This is,
+after all, the source of the famous MNIST dataset of handwritten digits.  The
+same applies to reading checks for bank deposits and scoring creditworthiness of
+applicants.  Financial transactions are checked for fraud automatically.  This
+forms the backbone of many e-commerce payment systems, such as PayPal, Stripe,
+AliPay, WeChat, Apple, Visa, and MasterCard.  Computer programs for chess have
+been competitive for decades.  Machine learning feeds search, recommendation,
+personalization, and ranking on the Internet.  In other words, machine learning
+is pervasive, albeit often hidden from sight.
 
-It is only recently that AI
-has been in the limelight, mostly due to
-solutions to problems
-that were considered intractable previously
-and that are directly related to consumers.
-Many of such advances are attributed to deep learning.
+It is only recently that AI has been in the limelight, mostly due to solutions
+to problems that were considered intractable previously and that are directly
+related to consumers.  Many of such advances are attributed to deep learning.
 
-* Intelligent assistants, such as Apple's Siri,
-  Amazon's Alexa, and Google's assistant,
-  are able to respond to spoken requests
-  with a reasonable degree of accuracy.
-  This includes menial jobs, like turning on light switches,
-  and more complex tasks, such as arranging barber's appointments
-  and offering phone support dialog.
-  This is likely the most noticeable sign
-  that AI is affecting our lives.
-* A key ingredient in digital assistants
-  is their ability to recognize speech accurately.
-  The accuracy of such systems has gradually
-  increased to the point
-  of achieving parity with humans
-  for certain applications ([Xiong, Wu, Alleva et al](https://arxiv.org/abs/1708.06073)).
-* Object recognition has likewise come a long way.
-  Identifying the object in a picture
-  was a fairly challenging task in 2010.
-  On the ImageNet benchmark researchers from NEC Labs
-  and University of Illinois at Urbana-Champaign
-  achieved a top-five error rate of 28% ([Lin, Lv, Zhu et al](https://image-net.org/static_files/files/ILSVRC2010_NEC-UIUC.pdf)).
-  By 2017, this error rate was reduced to 2.25% ([Hu, Shen & Sun](https://ieeexplore.ieee.org/document/8578843)).
-  Similarly, stunning results have been achieved
-  for identifying birdsong and for diagnosing skin cancer.
-* Prowess in games used to provide
-  a measuring stick for human ability.
-  Starting from TD-Gammon, a program for playing backgammon
-  using temporal difference reinforcement learning,
-  algorithmic and computational progress
-  has led to algorithms for a wide range of applications.
-  Compared with backgammon, chess has
-  a much more complex state space and set of actions.
-  DeepBlue beat Garry Kasparov using massive parallelism,
-  special-purpose hardware and efficient search
-  through the game tree ([Campbell, Hoane Jr & Hsu](https://www.semanticscholar.org/paper/Deep-Blue-Campbell-Hoane/3e4bc1aa55c752918ae99b1a125f6adef61afad2)).
-  Go is more difficult still, due to its huge state space.
-  AlphaGo reached human parity in 2015,
-  using deep learning combined with Monte Carlo tree sampling ([Silver, Huang, Maddison et al](https://pubmed.ncbi.nlm.nih.gov/26819042/)).
-  The challenge in Poker was that the state space is large
-  and only partially observed
-  (we do not know the opponents' cards).
-  Libratus exceeded human performance in Poker
-  using efficiently structured strategies ([Brown & Sandholm](https://noambrown.github.io/papers/17-IJCAI-Libratus.pdf)).
-* Another indication of progress in AI
-  is the advent of self-driving vehicles.
-  While full autonomy is not yet within reach,
-  excellent progress has been made in this direction,
-  with companies such as Tesla, NVIDIA,
-  and Waymo shipping products
-  that enable partial autonomy.
-  What makes full autonomy so challenging
-  is that proper driving requires
-  the ability to perceive, to reason
-  and to incorporate rules into a system.
-  At present, deep learning is used primarily
-  in the visual aspect of these problems.
-  The rest is heavily tuned by engineers.
+* Intelligent assistants, such as Apple's Siri, Amazon's Alexa, and Google's
+  assistant, are able to respond to spoken requests with a reasonable degree of
+accuracy.  This includes menial jobs, like turning on light switches, and more
+complex tasks, such as arranging barber's appointments and offering phone
+support dialog.  This is likely the most noticeable sign that AI is affecting
+our lives.
+* A key ingredient in digital assistants is their ability to recognize speech
+  accurately.  The accuracy of such systems has gradually increased to the point
+of achieving parity with humans for certain applications ([Xiong, Wu, Alleva et
+al](https://arxiv.org/abs/1708.06073)).
+* Object recognition has likewise come a long way.  Identifying the object in a
+  picture was a fairly challenging task in 2010.  On the ImageNet benchmark
+researchers from NEC Labs and University of Illinois at Urbana-Champaign
+achieved a top-five error rate of 28% ([Lin, Lv, Zhu et
+al](https://image-net.org/static_files/files/ILSVRC2010_NEC-UIUC.pdf)).  By
+2017, this error rate was reduced to 2.25% ([Hu, Shen &
+Sun](https://ieeexplore.ieee.org/document/8578843)).  Similarly, stunning
+results have been achieved for identifying birdsong and for diagnosing skin
+cancer.
+* Prowess in games used to provide a measuring stick for human ability.
+  Starting from TD-Gammon, a program for playing backgammon using temporal
+difference reinforcement learning, algorithmic and computational progress has
+led to algorithms for a wide range of applications.  Compared with backgammon,
+chess has a much more complex state space and set of actions.  DeepBlue beat
+Garry Kasparov using massive parallelism, special-purpose hardware and efficient
+search through the game tree ([Campbell, Hoane Jr &
+Hsu](https://www.semanticscholar.org/paper/Deep-Blue-Campbell-Hoane/3e4bc1aa55c752918ae99b1a125f6adef61afad2)).
+Go is more difficult still, due to its huge state space.  AlphaGo reached human
+parity in 2015, using deep learning combined with Monte Carlo tree sampling
+([Silver, Huang, Maddison et al](https://pubmed.ncbi.nlm.nih.gov/26819042/)).
+The challenge in Poker was that the state space is large and only partially
+observed (we do not know the opponents' cards).  Libratus exceeded human
+performance in Poker using efficiently structured strategies ([Brown &
+Sandholm](https://noambrown.github.io/papers/17-IJCAI-Libratus.pdf)).
+* Another indication of progress in AI is the advent of self-driving vehicles.
+  While full autonomy is not yet within reach, excellent progress has been made
+in this direction, with companies such as Tesla, NVIDIA, and Waymo shipping
+products that enable partial autonomy.  What makes full autonomy so challenging
+is that proper driving requires the ability to perceive, to reason and to
+incorporate rules into a system.  At present, deep learning is used primarily in
+the visual aspect of these problems.  The rest is heavily tuned by engineers.
 
 
 
-This barely scratches the surface
-of significant applications of machine learning.
-For instance, robotics, logistics, computational biology,
-particle physics, and astronomy
-owe some of their most impressive recent advances
-at least in parts to machine learning, which is thus becoming
-a ubiquitous tool for engineers and scientists.
+This barely scratches the surface of significant applications of machine
+learning.  For instance, robotics, logistics, computational biology, particle
+physics, and astronomy owe some of their most impressive recent advances at
+least in parts to machine learning, which is thus becoming a ubiquitous tool for
+engineers and scientists.
 
-Frequently, questions about a coming AI apocalypse
-and the plausibility of a *singularity*
-have been raised in non-technical articles.
-The fear is that somehow machine learning systems
-will become sentient and make decisions,
-independently of their programmers,
-that directly impact the lives of humans.
-To some extent, AI already affects
-the livelihood of humans in direct ways:
-creditworthiness is assessed automatically,
-autopilots mostly navigate vehicles, decisions about
-whether to grant bail use statistical data as input.
-More frivolously, we can ask Alexa to switch on the coffee machine.
+Frequently, questions about a coming AI apocalypse and the plausibility of a
+*singularity* have been raised in non-technical articles.  The fear is that
+somehow machine learning systems will become sentient and make decisions,
+independently of their programmers, that directly impact the lives of humans.
+To some extent, AI already affects the livelihood of humans in direct ways:
+creditworthiness is assessed automatically, autopilots mostly navigate vehicles,
+decisions about whether to grant bail use statistical data as input.  More
+frivolously, we can ask Alexa to switch on the coffee machine.
 
-Fortunately, we are far from a sentient AI system
-that could deliberately manipulate its human creators.
-First, AI systems are engineered,
-trained, and deployed
-in a specific, goal-oriented manner.
-While their behavior might give the illusion
-of general intelligence, it is a combination of rules, heuristics
-and statistical models that underlie the design.
-Second, at present, there are simply no tools for *artificial general intelligence*
-that are able to improve themselves,
-reason about themselves, and that are able to modify,
-extend, and improve their own architecture
-while trying to solve general tasks.
+Fortunately, we are far from a sentient AI system that could deliberately
+manipulate its human creators.  First, AI systems are engineered, trained, and
+deployed in a specific, goal-oriented manner.  While their behavior might give
+the illusion of general intelligence, it is a combination of rules, heuristics
+and statistical models that underlie the design.  Second, at present, there are
+simply no tools for *artificial general intelligence* that are able to improve
+themselves, reason about themselves, and that are able to modify, extend, and
+improve their own architecture while trying to solve general tasks.
 
-A much more pressing concern is how AI is being used in our daily lives.
-It is likely that many routine tasks, currently fulfilled by humans, can and will be automated.
-Farm robots will likely reduce the costs for organic farmers
-but they will also automate harvesting operations.
-This phase of the industrial revolution
-may have profound consequences for large swaths of society,
-since menial jobs provide much employment 
-in many countries.
-Furthermore, statistical models, when applied without care,
-can lead to racial, gender, or age bias and raise
-reasonable concerns about procedural fairness
-if automated to drive consequential decisions.
-It is important to ensure that these algorithms are used with care.
-With what we know today, this strikes us as a much more pressing concern
-than the potential of malevolent superintelligence for destroying humanity.
+A much more pressing concern is how AI is being used in our daily lives.  It is
+likely that many routine tasks, currently fulfilled by humans, can and will be
+automated.  Farm robots will likely reduce the costs for organic farmers but
+they will also automate harvesting operations.  This phase of the industrial
+revolution may have profound consequences for large swaths of society, since
+menial jobs provide much employment in many countries.  Furthermore, statistical
+models, when applied without care, can lead to racial, gender, or age bias and
+raise reasonable concerns about procedural fairness if automated to drive
+consequential decisions.  It is important to ensure that these algorithms are
+used with care.  With what we know today, this strikes us as a much more
+pressing concern than the potential of malevolent superintelligence for
+destroying humanity.
 
 
 ## The Essence of Deep Learning
 
-Thus far, we have talked in broad terms about machine learning.
-Deep learning is the subset of machine learning
-concerned with models based on many-layered neural networks.
-It is *deep* in precisely the sense that its models
-learn many *layers* of transformations.
-While this might sound narrow,
-deep learning has given rise
-to a dizzying array of models, techniques,
-problem formulations, and applications.
-Many intuitions have been developed
-to explain the benefits of depth.
-Arguably, all machine learning
-has many layers of computation,
-the first consisting of feature processing steps.
-What differentiates deep learning is that
-the operations learned at each of the many layers
-of representations are learned jointly from data.
+Thus far, we have talked in broad terms about machine learning.  Deep learning
+is the subset of machine learning concerned with models based on many-layered
+neural networks.  It is *deep* in precisely the sense that its models learn many
+*layers* of transformations.  While this might sound narrow, deep learning has
+given rise to a dizzying array of models, techniques, problem formulations, and
+applications.  Many intuitions have been developed to explain the benefits of
+depth.  Arguably, all machine learning has many layers of computation, the first
+consisting of feature processing steps.  What differentiates deep learning is
+that the operations learned at each of the many layers of representations are
+learned jointly from data.
 
-The problems that we have discussed so far,
-such as learning from the raw audio signal,
-the raw pixel values of images,
-or mapping between sentences of arbitrary lengths and
-their counterparts in foreign languages,
-are those where deep learning excels
-and traditional methods falter.
-It turns out that these many-layered models
-are capable of addressing low-level perceptual data
-in a way that previous tools could not.
-Arguably the most significant commonality
-in deep learning methods is *end-to-end training*.
-That is, rather than assembling a system
-based on components that are individually tuned,
-one builds the system and then tunes their performance jointly.
-For instance, in computer vision scientists
-used to separate the process of *feature engineering*
-from the process of building machine learning models.
-The Canny edge detector ([Canny](https://ieeexplore.ieee.org/document/4767851))
-and Lowe's SIFT feature extractor ([Lowe](https://link.springer.com/article/10.1023/B:VISI.0000029664.99615.94))
-reigned supreme for over a decade as algorithms
-for mapping images into feature vectors.
-In bygone days, the crucial part of applying machine learning to these problems
-consisted of coming up with manually-engineered ways
-of transforming the data into some form amenable to shallow models.
-Unfortunately, there is only so much that humans can accomplish
-by ingenuity in comparison with a consistent evaluation
-over millions of choices carried out automatically by an algorithm.
-When deep learning took over,
-these feature extractors were replaced
+The problems that we have discussed so far, such as learning from the raw audio
+signal, the raw pixel values of images, or mapping between sentences of
+arbitrary lengths and their counterparts in foreign languages, are those where
+deep learning excels and traditional methods falter.  It turns out that these
+many-layered models are capable of addressing low-level perceptual data in a way
+that previous tools could not.  Arguably the most significant commonality in
+deep learning methods is *end-to-end training*.  That is, rather than assembling
+a system based on components that are individually tuned, one builds the system
+and then tunes their performance jointly.  For instance, in computer vision
+scientists used to separate the process of *feature engineering* from the
+process of building machine learning models.  The Canny edge detector
+([Canny](https://ieeexplore.ieee.org/document/4767851)) and Lowe's SIFT feature
+extractor
+([Lowe](https://link.springer.com/article/10.1023/B:VISI.0000029664.99615.94))
+reigned supreme for over a decade as algorithms for mapping images into feature
+vectors.  In bygone days, the crucial part of applying machine learning to these
+problems consisted of coming up with manually-engineered ways of transforming
+the data into some form amenable to shallow models.  Unfortunately, there is
+only so much that humans can accomplish by ingenuity in comparison with a
+consistent evaluation over millions of choices carried out automatically by an
+algorithm.  When deep learning took over, these feature extractors were replaced
 by automatically tuned filters that yielded superior accuracy.
 
-Thus, one key advantage of deep learning is that it replaces
-not only the shallow models at the end of traditional learning pipelines,
-but also the labor-intensive process of feature engineering.
-Moreover, by replacing much of the domain-specific preprocessing,
-deep learning has eliminated many of the boundaries
-that previously separated computer vision, speech recognition,
+Thus, one key advantage of deep learning is that it replaces not only the
+shallow models at the end of traditional learning pipelines, but also the
+labor-intensive process of feature engineering.  Moreover, by replacing much of
+the domain-specific preprocessing, deep learning has eliminated many of the
+boundaries that previously separated computer vision, speech recognition,
 natural language processing, medical informatics, and other application areas,
 thereby offering a unified set of tools for tackling diverse problems.
 
-Beyond end-to-end training, we are experiencing a transition
-from parametric statistical descriptions to fully nonparametric models.
-When data is scarce, one needs to rely on simplifying assumptions about reality
-in order to obtain useful models.
-When data is abundant, these can be replaced
-by nonparametric models that better fit the data.
-To some extent, this mirrors the progress
-that physics experienced in the middle of the previous century
-with the availability of computers.
-Rather than solving by hand parametric approximations of how electrons behave,
-one can now resort to numerical simulations of the associated partial differential equations.
-This has led to much more accurate models,
+Beyond end-to-end training, we are experiencing a transition from parametric
+statistical descriptions to fully nonparametric models.  When data is scarce,
+one needs to rely on simplifying assumptions about reality in order to obtain
+useful models.  When data is abundant, these can be replaced by nonparametric
+models that better fit the data.  To some extent, this mirrors the progress that
+physics experienced in the middle of the previous century with the availability
+of computers.  Rather than solving by hand parametric approximations of how
+electrons behave, one can now resort to numerical simulations of the associated
+partial differential equations.  This has led to much more accurate models,
 albeit often at the expense of interpretation.
 
 Another difference from previous work is the acceptance of suboptimal solutions,
-dealing with nonconvex nonlinear optimization problems,
-and the willingness to try things before proving them.
-This new-found empiricism in dealing with statistical problems,
-combined with a rapid influx of talent has led
-to rapid progress in the development of practical algorithms,
-albeit in many cases at the expense of modifying
-and re-inventing tools that existed for decades.
+dealing with nonconvex nonlinear optimization problems, and the willingness to
+try things before proving them.  This new-found empiricism in dealing with
+statistical problems, combined with a rapid influx of talent has led to rapid
+progress in the development of practical algorithms, albeit in many cases at the
+expense of modifying and re-inventing tools that existed for decades.
 
-In the end, the deep learning community prides itself
-on sharing tools across academic and corporate boundaries,
-releasing many excellent libraries, statistical models,
-and trained networks as open source.
-It is in this spirit that the notebooks forming this book
-are freely available for distribution and use.
-We have worked hard to lower the barriers of access
-for anyone wishing to learn about deep learning
-and we hope that our readers will benefit from this.
+In the end, the deep learning community prides itself on sharing tools across
+academic and corporate boundaries, releasing many excellent libraries,
+statistical models, and trained networks as open source.  It is in this spirit
+that the notebooks forming this book are freely available for distribution and
+use.  We have worked hard to lower the barriers of access for anyone wishing to
+learn about deep learning and we hope that our readers will benefit from this.
 
 
 ## Summary
 
-Machine learning studies how computer systems
-can leverage experience (often data)
-to improve performance at specific tasks.
-It combines ideas from statistics, data mining, and optimization.
-Often, it is used as a means of implementing AI solutions.
-As a class of machine learning, representational learning
-focuses on how to automatically find
-the appropriate way to represent data.
-Considered as multi-level representation learning
-through learning many layers of transformations,
-deep learning replaces not only the shallow models
-at the end of traditional machine learning pipelines,
-but also the labor-intensive process of feature engineering.
-Much of the recent progress in deep learning
-has been triggered by an abundance of data
-arising from cheap sensors and Internet-scale applications,
-and by significant progress in computation, mostly through GPUs.
-Furthermore, the availability of efficient deep learning frameworks
-has made design and implementation of whole system optimization significantly easier,
-and this is a key component in obtaining high performance.
+Machine learning studies how computer systems can leverage experience (often
+data) to improve performance at specific tasks.  It combines ideas from
+statistics, data mining, and optimization.  Often, it is used as a means of
+implementing AI solutions.  As a class of machine learning, representational
+learning focuses on how to automatically find the appropriate way to represent
+data.  Considered as multi-level representation learning through learning many
+layers of transformations, deep learning replaces not only the shallow models at
+the end of traditional machine learning pipelines, but also the labor-intensive
+process of feature engineering.  Much of the recent progress in deep learning
+has been triggered by an abundance of data arising from cheap sensors and
+Internet-scale applications, and by significant progress in computation, mostly
+through GPUs.  Furthermore, the availability of efficient deep learning
+frameworks has made design and implementation of whole system optimization
+significantly easier, and this is a key component in obtaining high performance.
 
 ## Exercises
 
-1. Which parts of code that you are currently writing could be "learned",
-   i.e., improved by learning and automatically determining design choices
-   that are made in your code?
-   Does your code include heuristic design choices?
-   What data might you need to learn the desired behavior?
-1. Which problems that you encounter have many examples for their solution,
-   yet no specific way for automating them?
-   These may be prime candidates for using deep learning.
-1. Describe the relationships between algorithms, data, and computation. How do characteristics of the data and the current available computational resources influence the appropriateness of various algorithms?
-1. Name some settings where end-to-end training is not currently the default approach but where it might be useful.
+1. Which parts of code that you are currently writing could be "learned", i.e.,
+   improved by learning and automatically determining design choices that are
+made in your code?  Does your code include heuristic design choices?  What data
+might you need to learn the desired behavior?
+1. Which problems that you encounter have many examples for their solution, yet
+   no specific way for automating them?  These may be prime candidates for using
+deep learning.
+1. Describe the relationships between algorithms, data, and computation. How do
+   characteristics of the data and the current available computational resources
+influence the appropriateness of various algorithms?
+1. Name some settings where end-to-end training is not currently the default
+   approach but where it might be useful.
 
 [Installation](../chapter_installation/index.md)
