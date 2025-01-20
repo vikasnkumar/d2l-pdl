@@ -750,8 +750,8 @@ development of *generative adversarial networks* ([Goodfellow, Pouget-Abadie,
 Mirza - 2014](https://arxiv.org/abs/1406.2661)).  More recent advances include
 normalizing flows ([Dinh, Kreuger, Bengio](https://arxiv.org/abs/1410.8516),
 [Dinh, Sohl-Dickstein, Bengio](https://arxiv.org/abs/1605.08803)) and diffusion
-models ([Sohl-Dickstein, Weiss, Ganguli,
-Maheswaranathan](https://arxiv.org/abs/1503.03585), [Song &
+models ([Sohl-Dickstein, Weiss, Maheswaranathan,
+Ganguli](https://arxiv.org/abs/1503.03585), [Song &
 Ermon](https://arxiv.org/abs/1907.05600), [Ho, Jain &
 Abbeel](https://arxiv.org/abs/2006.11239), [Song, Sohl-Dickstein, Kingma, Kumar,
 Ermon, Poole](https://arxiv.org/abs/2011.13456)).
@@ -762,8 +762,8 @@ A further development in unsupervised learning has been the rise of
 *self-supervised learning*, techniques that leverage some aspect of the
 unlabeled data to provide supervision.  For text, we can train models to "fill
 in the blanks" by predicting randomly masked words using their surrounding words
-(contexts) in big corpora without any labeling effort ([Devlin, Chang, Lee -
-2018](https://arxiv.org/abs/1810.04805))!  For images, we may train models to
+(contexts) in big corpora without any labeling effort ([Devlin, Chang, Lee,
+Toutanova](https://arxiv.org/abs/1810.04805))!  For images, we may train models to
 tell the relative position between two cropped regions of the same image
 ([Doersch, Gupta, Efros](https://arxiv.org/abs/1505.05192)), to predict an
 occluded part of an image based on the remaining portions of the image, or to
@@ -866,8 +866,8 @@ Consider the game of chess.  The only real reward signal comes at the end of the
 game when we either win, earning a reward of, say, $$1$$, or when we lose,
 receiving a reward of, say, $$-1$$.  So reinforcement learners must deal with
 the *credit assignment* problem: determining which actions to credit or blame
-for an outcome.  The same goes for an employee who gets a promotion on October
-11.  That promotion likely reflects a number of well-chosen actions over the
+for an outcome.  The same goes for an employee who gets a promotion in October.
+That promotion likely reflects a number of well-chosen actions over the
 previous year.  Getting promoted in the future requires figuring out which
 actions along the way led to the earlier promotions.
 
@@ -901,142 +901,113 @@ the classic *multi-armed bandit problem*.
 
 ## Roots
 
-We have just reviewed a small subset of problems
-that machine learning can address.
-For a diverse set of machine learning problems,
-deep learning provides powerful tools for their solution.
-Although many deep learning methods are recent inventions,
-the core ideas behind learning from data
-have been studied for centuries.
-In fact, humans have held the desire to analyze data
-and to predict future outcomes for 
-ages, and it is this desire that is at the root of much of natural science and mathematics.
-Two examples are the Bernoulli distribution, named after
-[Jacob Bernoulli (1655--1705)](https://en.wikipedia.org/wiki/Jacob_Bernoulli),
-and the Gaussian distribution discovered
-by [Carl Friedrich Gauss (1777--1855)](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss).
-Gauss invented, for instance, the least mean squares algorithm,
-which is still used today for a multitude of problems
-from insurance calculations to medical diagnostics.
-Such tools enhanced the experimental approach
-in the natural sciences---for instance, Ohm's law
-relating current and voltage in a resistor
-is perfectly described by a linear model.
+We have just reviewed a small subset of problems that machine learning can
+address.  For a diverse set of machine learning problems, deep learning provides
+powerful tools for their solution.  Although many deep learning methods are
+recent inventions, the core ideas behind learning from data have been studied
+for centuries.  In fact, humans have held the desire to analyze data and to
+predict future outcomes for ages, and it is this desire that is at the root of
+much of natural science and mathematics.  Two examples are the Bernoulli
+distribution, named after [Jacob Bernoulli
+(1655--1705)](https://en.wikipedia.org/wiki/Jacob_Bernoulli), and the Gaussian
+distribution discovered by [Carl Friedrich Gauss
+(1777--1855)](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss).  Gauss
+invented, for instance, the least mean squares algorithm, which is still used
+today for a multitude of problems from insurance calculations to medical
+diagnostics.  Such tools enhanced the experimental approach in the natural
+sciences---for instance, Ohm's law relating current and voltage in a resistor is
+perfectly described by a linear model.
 
-Even in the middle ages, mathematicians
-had a keen intuition of estimates.
-For instance, the geometry book of [Jacob Köbel (1460--1533)](https://www.maa.org/press/periodicals/convergence/mathematical-treasures-jacob-kobels-geometry)
-illustrates averaging the length of 16 adult men's feet
-to estimate the typical foot length in the population [figure](#fig-koebel).
+Even in the middle ages, mathematicians had a keen intuition of estimates.  For
+instance, the geometry book of [Jacob Köbel
+(1460--1533)](https://www.maa.org/press/periodicals/convergence/mathematical-treasures-jacob-kobels-geometry)
+illustrates averaging the length of 16 adult men's feet to estimate the typical
+foot length in the population ([see figure](#fig-koebel)).
 
 ![Estimating the length of a foot.](../img/koebel.jpg){:.width="500px"}{:#fig-koebel}
 
 
-As a group of individuals exited a church,
-16 adult men were asked to line up in a row
-and have their feet measured.
-The sum of these measurements was then divided by 16
-to obtain an estimate for what now is called one foot.
-This "algorithm" was later improved
-to deal with misshapen feet;
-The two men with the shortest and longest feet were sent away,
-averaging only over the remainder.
-This is among the earliest examples
-of a trimmed mean estimate.
+As a group of individuals exited a church, 16 adult men were asked to line up in
+a row and have their feet measured.  The sum of these measurements was then
+divided by 16 to obtain an estimate for what now is called one foot.  This
+"algorithm" was later improved to deal with misshapen feet; The two men with the
+shortest and longest feet were sent away, averaging only over the remainder.
+This is among the earliest examples of a trimmed mean estimate.
 
-Statistics really took off with the availability and collection of data.
-One of its pioneers, [Ronald Fisher (1890--1962)](https://en.wikipedia.org/wiki/Ronald_Fisher),
-contributed significantly to its theory
-and also its applications in genetics.
-Many of his algorithms (such as linear discriminant analysis)
-and concepts (such as the Fisher information matrix)
-still hold a prominent place
-in the foundations of modern statistics.
-Even his data resources had a lasting impact.
-The Iris dataset that Fisher released in 1936
-is still sometimes used to demonstrate
-machine learning algorithms.
-Fisher was also a proponent of eugenics,
-which should remind us that the morally dubious use of data science
-has as long and enduring a history as its productive use
-in industry and the natural sciences.
+Statistics really took off with the availability and collection of data.  One of
+its pioneers, [Ronald Fisher
+(1890--1962)](https://en.wikipedia.org/wiki/Ronald_Fisher), contributed
+significantly to its theory and also its applications in genetics.  Many of his
+algorithms (such as linear discriminant analysis) and concepts (such as the
+Fisher information matrix) still hold a prominent place in the foundations of
+modern statistics.  Even his data resources had a lasting impact.  The Iris
+dataset that Fisher released in 1936 is still sometimes used to demonstrate
+machine learning algorithms.  Fisher was also a proponent of eugenics, which
+should remind us that the morally dubious use of data science has as long and
+enduring a history as its productive use in industry and the natural sciences.
 
 
-Other influences for machine learning
-came from the information theory of
-[Claude Shannon (1916--2001)](https://en.wikipedia.org/wiki/Claude_Shannon)
-and the theory of computation proposed by
-[Alan Turing (1912--1954)](https://en.wikipedia.org/wiki/Alan_Turing).
-Turing posed the question "can machines think?”
-in his famous paper *Computing Machinery and Intelligence* :cite:`Turing.1950`.
-Describing what is now known as the Turing test, he proposed that a machine
-can be considered *intelligent* if it is difficult
-for a human evaluator to distinguish between the replies
-from a machine and those of a human, based purely on textual interactions.
+Other influences for machine learning came from the information theory of
+[Claude Shannon (1916--2001)](https://en.wikipedia.org/wiki/Claude_Shannon) and
+the theory of computation proposed by [Alan Turing
+(1912--1954)](https://en.wikipedia.org/wiki/Alan_Turing).  Turing posed the
+question "can machines think?” in his famous paper [*Computing Machinery and
+Intelligence*](https://archive.org/details/MIND--COMPUTING-MACHINERY-AND-INTELLIGENCE).
+Describing what is now known as the Turing test, he proposed that a machine can
+be considered *intelligent* if it is difficult for a human evaluator to
+distinguish between the replies from a machine and those of a human, based
+purely on textual interactions.
 
-Further influences came from neuroscience and psychology.
-After all, humans clearly exhibit intelligent behavior.
-Many scholars have asked whether one could explain
-and possibly reverse engineer this capacity.
-One of the first biologically inspired algorithms
-was formulated by [Donald Hebb (1904--1985)](https://en.wikipedia.org/wiki/Donald_O._Hebb).
-In his groundbreaking book *The Organization of Behavior* :cite:`Hebb.1949`,
-he posited that neurons learn by positive reinforcement.
-This became known as the Hebbian learning rule.
-These ideas inspired later work, such as
-Rosenblatt's perceptron learning algorithm,
-and laid the foundations of many stochastic gradient descent algorithms
-that underpin deep learning today:
-reinforce desirable behavior and diminish undesirable behavior
-to obtain good settings of the parameters in a neural network.
+Further influences came from neuroscience and psychology.  After all, humans
+clearly exhibit intelligent behavior.  Many scholars have asked whether one
+could explain and possibly reverse engineer this capacity.  One of the first
+biologically inspired algorithms was formulated by [Donald Hebb
+(1904--1985)](https://en.wikipedia.org/wiki/Donald_O._Hebb).  In his
+groundbreaking book [*The Organization of
+Behavior*](https://archive.org/details/organizationofbe0000hebb), he posited
+that neurons learn by positive reinforcement.  This became known as the Hebbian
+learning rule.  These ideas inspired later work, such as Rosenblatt's perceptron
+learning algorithm, and laid the foundations of many stochastic gradient descent
+algorithms that underpin deep learning today: reinforce desirable behavior and
+diminish undesirable behavior to obtain good settings of the parameters in a
+neural network.
 
-Biological inspiration is what gave *neural networks* their name.
-For over a century (dating back to the models of Alexander Bain, 1873,
-and James Sherrington, 1890), researchers have tried to assemble
-computational circuits that resemble networks of interacting neurons.
-Over time, the interpretation of biology has become less literal,
-but the name stuck. At its heart lie a few key principles
-that can be found in most networks today:
+Biological inspiration is what gave *neural networks* their name.  For over a
+century (dating back to the models of Alexander Bain, 1873, and James
+Sherrington, 1890), researchers have tried to assemble computational circuits
+that resemble networks of interacting neurons.  Over time, the interpretation of
+biology has become less literal, but the name stuck. At its heart lie a few key
+principles that can be found in most networks today:
 
-* The alternation of linear and nonlinear processing units, often referred to as *layers*.
-* The use of the chain rule (also known as *backpropagation*) for adjusting parameters in the entire network at once.
+* The alternation of linear and nonlinear processing units, often referred to as
+  *layers*.
+* The use of the chain rule (also known as *backpropagation*) for adjusting
+  parameters in the entire network at once.
 
-After initial rapid progress, research in neural networks
-languished from around 1995 until 2005.
-This was mainly due to two reasons.
-First, training a network is computationally very expensive.
-While random-access memory was plentiful at the end of the past century,
-computational power was scarce.
-Second, datasets were relatively small.
-In fact, Fisher's Iris dataset from 1936
-was still a popular tool for testing the efficacy of algorithms.
-The MNIST dataset with its 60,000 handwritten digits was considered huge.
+After initial rapid progress, research in neural networks languished from around
+1995 until 2005.  This was mainly due to two reasons.  First, training a network
+is computationally very expensive.  While random-access memory was plentiful at
+the end of the past century, computational power was scarce.  Second, datasets
+were relatively small.  In fact, Fisher's Iris dataset from 1936 was still a
+popular tool for testing the efficacy of algorithms.  The MNIST dataset with its
+60,000 handwritten digits was considered huge.
 
-Given the scarcity of data and computation,
-strong statistical tools such as kernel methods,
-decision trees, and graphical models
-proved empirically superior in many applications.
-Moreover, unlike neural networks,
-they did not require weeks to train
-and provided predictable results
-with strong theoretical guarantees.
+Given the scarcity of data and computation, strong statistical tools such as
+kernel methods, decision trees, and graphical models proved empirically superior
+in many applications.  Moreover, unlike neural networks, they did not require
+weeks to train and provided predictable results with strong theoretical
+guarantees.
 
 
 ## The Road to Deep Learning
 
-Much of this changed with the availability
-of massive amounts of data,
-thanks to the World Wide Web,
-the advent of companies serving
-hundreds of millions of users online,
-a dissemination of low-cost, high-quality sensors,
-inexpensive data storage (Kryder's law),
-and cheap computation (Moore's law).
-In particular, the landscape of computation in deep learning
-was revolutionized by advances in GPUs that were originally engineered for computer gaming.
-Suddenly algorithms and models
-that seemed computationally infeasible
-were within reach.
+Much of this changed with the availability of massive amounts of data, thanks to
+the World Wide Web, the advent of companies serving hundreds of millions of
+users online, a dissemination of low-cost, high-quality sensors, inexpensive
+data storage (Kryder's law), and cheap computation (Moore's law).  In
+particular, the landscape of computation in deep learning was revolutionized by
+advances in GPUs that were originally engineered for computer gaming.  Suddenly
+algorithms and models that seemed computationally infeasible were within reach.
 This is best illustrated in [the table below](#tab-intro-decade).
 
 #### Dataset vs. computer memory and computational power
@@ -1052,147 +1023,167 @@ This is best illustrated in [the table below](#tab-intro-decade).
 |2020|1 T (social network)|100 GB|1 PF (NVIDIA DGX-2)|
 
 
-Note that random-access memory has not kept pace with the growth in data.
-At the same time, increases in computational power
-have outpaced the growth in datasets.
-This means that statistical models
-need to become more memory efficient,
-and so they are free to spend more computer cycles
-optimizing parameters, thanks to
-the increased compute budget.
-Consequently, the sweet spot in machine learning and statistics
-moved from (generalized) linear models and kernel methods
-to deep neural networks.
-This is also one of the reasons why many of the mainstays
-of deep learning, such as multilayer perceptrons
-:cite:`McCulloch.Pitts.1943`, convolutional neural networks
-:cite:`LeCun.Bottou.Bengio.ea.1998`, long short-term memory
-:cite:`Hochreiter.Schmidhuber.1997`,
-and Q-Learning :cite:`Watkins.Dayan.1992`,
-were essentially "rediscovered" in the past decade,
-after lying comparatively dormant for considerable time.
+Note that random-access memory has not kept pace with the growth in data.  At
+the same time, increases in computational power have outpaced the growth in
+datasets.  This means that statistical models need to become more memory
+efficient, and so they are free to spend more computer cycles optimizing
+parameters, thanks to the increased compute budget.  Consequently, the sweet
+spot in machine learning and statistics moved from (generalized) linear models
+and kernel methods to deep neural networks.  This is also one of the reasons why
+many of the mainstays of deep learning, such as multilayer perceptrons
+([McCulloch &
+Pitts](https://en.wikipedia.org/wiki/A_Logical_Calculus_of_the_Ideas_Immanent_in_Nervous_Activity)),
+convolutional neural networks ([LeCu, Bottou, Bengio et
+al](https://ieeexplore.ieee.org/document/726791)), long short-term memory
+([Hochreiter &
+Schmidhuber](https://ieeexplore.ieee.org/abstract/document/6795963)), and
+Q-Learning ([Watkins &
+Dayan](https://link.springer.com/article/10.1007/BF00992698)), were essentially
+"rediscovered" in the past decade, after lying comparatively dormant for
+considerable time.
 
-The recent progress in statistical models, applications, and algorithms
-has sometimes been likened to the Cambrian explosion:
-a moment of rapid progress in the evolution of species.
-Indeed, the state of the art is not just a mere consequence
-of available resources applied to decades-old algorithms.
-Note that the list of ideas below barely scratches the surface
-of what has helped researchers achieve tremendous progress
-over the past decade.
+The recent progress in statistical models, applications, and algorithms has
+sometimes been likened to the Cambrian explosion: a moment of rapid progress in
+the evolution of species.  Indeed, the state of the art is not just a mere
+consequence of available resources applied to decades-old algorithms.  Note that
+the list of ideas below barely scratches the surface of what has helped
+researchers achieve tremendous progress over the past decade.
 
 
-* Novel methods for capacity control, such as *dropout*
-  :cite:`Srivastava.Hinton.Krizhevsky.ea.2014`,
-  have helped to mitigate overfitting.
-  Here, noise is injected :cite:`Bishop.1995`
-  throughout the neural network during training.
-* *Attention mechanisms* solved a second problem
-  that had plagued statistics for over a century:
-  how to increase the memory and complexity of a system without
-  increasing the number of learnable parameters.
-  Researchers found an elegant solution
-  by using what can only be viewed as
-  a *learnable pointer structure* :cite:`Bahdanau.Cho.Bengio.2014`.
-  Rather than having to remember an entire text sequence, e.g.,
-  for machine translation in a fixed-dimensional representation,
-  all that needed to be stored was a pointer to the intermediate state
-  of the translation process. This allowed for significantly
-  increased accuracy for long sequences, since the model
-  no longer needed to remember the entire sequence before
-  commencing the generation of a new one.
-* Built solely on attention mechanisms,
-  the *Transformer* architecture :cite:`Vaswani.Shazeer.Parmar.ea.2017` has demonstrated superior *scaling* behavior: it performs better with an increase in dataset size, model size, and amount of training compute :cite:`kaplan2020scaling`. This architecture has demonstrated compelling success in a wide range of areas,
-  such as natural language processing :cite:`Devlin.Chang.Lee.ea.2018,brown2020language`, computer vision :cite:`Dosovitskiy.Beyer.Kolesnikov.ea.2021,liu2021swin`, speech recognition :cite:`gulati2020conformer`, reinforcement learning :cite:`chen2021decision`, and graph neural networks :cite:`dwivedi2020generalization`. For example, a single Transformer pretrained on modalities
-  as diverse as text, images, joint torques, and button presses
-  can play Atari, caption images, chat,
-  and control a robot :cite:`reed2022generalist`.
-* Modeling probabilities of text sequences, *language models* can predict text given other text. Scaling up the data, model, and compute has unlocked a growing number of capabilities of language models to perform desired tasks via human-like text generation based on input text :cite:`brown2020language,rae2021scaling,hoffmann2022training,chowdhery2022palm,openai2023gpt4,anil2023palm,touvron2023llama,touvron2023llama2`. For instance, aligning language models with human intent :cite:`ouyang2022training`, OpenAI's [ChatGPT](https://chat.openai.com/) allows users to interact with it in a conversational way to solve problems, such as code debugging and creative writing.
-* Multi-stage designs, e.g., via the memory networks
-  :cite:`Sukhbaatar.Weston.Fergus.ea.2015`
-  and the neural programmer-interpreter :cite:`Reed.De-Freitas.2015`
-  permitted statistical modelers to describe iterative approaches to reasoning.
-  These tools allow for an internal state of the deep neural network
-  to be modified repeatedly,
-  thus carrying out subsequent steps
-  in a chain of reasoning, just as a processor
-  can modify memory for a computation.
-* A key development in *deep generative modeling* was the invention
-  of *generative adversarial networks*
-  :cite:`Goodfellow.Pouget-Abadie.Mirza.ea.2014`.
-  Traditionally, statistical methods for density estimation
-  and generative models focused on finding proper probability distributions
-  and (often approximate) algorithms for sampling from them.
-  As a result, these algorithms were largely limited by the lack of
-  flexibility inherent in the statistical models.
-  The crucial innovation in generative adversarial networks was to replace the sampler
-  by an arbitrary algorithm with differentiable parameters.
-  These are then adjusted in such a way that the discriminator
-  (effectively a two-sample test) cannot distinguish fake from real data.
-  Through the ability to use arbitrary algorithms to generate data,
-  density estimation was opened up to a wide variety of techniques.
-  Examples of galloping zebras :cite:`Zhu.Park.Isola.ea.2017`
-  and of fake celebrity faces :cite:`Karras.Aila.Laine.ea.2017`
-  are each testimony to this progress.
-  Even amateur doodlers can produce
-  photorealistic images just based on sketches describing the layout of a scene :cite:`Park.Liu.Wang.ea.2019`. 
-* Furthermore, while the diffusion process gradually adds random noise to data samples, *diffusion models* :cite:`sohl2015deep,ho2020denoising` learn the denoising process to gradually construct data samples from random noise, reversing the diffusion process. They have started to replace generative adversarial networks in more recent deep generative models, such as in DALL-E 2 :cite:`ramesh2022hierarchical` and Imagen :cite:`saharia2022photorealistic` for creative art and image generation based on text descriptions.
-* In many cases, a single GPU is insufficient for processing the large amounts of data available for training.
-  Over the past decade the ability to build parallel and
-  distributed training algorithms has improved significantly.
-  One of the key challenges in designing scalable algorithms
-  is that the workhorse of deep learning optimization,
-  stochastic gradient descent, relies on relatively
-  small minibatches of data to be processed.
-  At the same time, small batches limit the efficiency of GPUs.
-  Hence, training on 1,024 GPUs with a minibatch size of,
-  say, 32 images per batch amounts to an aggregate minibatch
-  of about 32,000 images. Work, first by :citet:`Li.2017`
-  and subsequently by :citet:`You.Gitman.Ginsburg.2017`
-  and :citet:`Jia.Song.He.ea.2018` pushed the size up to 64,000 observations,
-  reducing training time for the ResNet-50 model
-  on the ImageNet dataset to less than 7 minutes.
-  By comparison, training times were initially of the order of days.
-* The ability to parallelize computation
-  has also contributed to progress in *reinforcement learning*.
-  This has led to significant progress in computers achieving
-  superhuman performance on tasks like Go, Atari games,
-  Starcraft, and in physics simulations (e.g., using MuJoCo)
-  where environment simulators are available.
-  See, e.g., :citet:`Silver.Huang.Maddison.ea.2016` for a description
-  of such achievements in AlphaGo. In a nutshell,
-  reinforcement learning works best
-  if plenty of (state, action, reward) tuples are available.
-  Simulation provides such an avenue.
-* Deep learning frameworks have played a crucial role
-  in disseminating ideas.
-  The first generation of open-source frameworks
-  for neural network modeling consisted of
-  [Caffe](https://github.com/BVLC/caffe),
-  [Torch](https://github.com/torch), and
-  [Theano](https://github.com/Theano/Theano).
-  Many seminal papers were written using these tools.
-  These have now been superseded by
-  [TensorFlow](https://github.com/tensorflow/tensorflow) (often used via its high-level API [Keras](https://github.com/keras-team/keras)), [CNTK](https://github.com/Microsoft/CNTK), [Caffe 2](https://github.com/caffe2/caffe2), and [Apache MXNet](https://github.com/apache/incubator-mxnet).
-  The third generation of frameworks consists
-  of so-called *imperative* tools for deep learning,
-  a trend that was arguably ignited by [Chainer](https://github.com/chainer/chainer),
-  which used a syntax similar to Python NumPy to describe models.
-  This idea was adopted by both [PyTorch](https://github.com/pytorch/pytorch),
-  the [Gluon API](https://github.com/apache/incubator-mxnet) of MXNet,
-  and [JAX](https://github.com/google/jax).
+* Novel methods for capacity control, such as *dropout* ([Srivastava, Hinton,
+  Krizhevsky et al](https://jmlr.org/papers/v15/srivastava14a.html)), have
+helped to mitigate overfitting.  Here, noise is injected
+([Bishop](https://ieeexplore.ieee.org/abstract/document/6796505)) throughout the
+neural network during training.
+* *Attention mechanisms* solved a second problem that had plagued statistics for
+  over a century: how to increase the memory and complexity of a system without
+increasing the number of learnable parameters.  Researchers found an elegant
+solution by using what can only be viewed as a *learnable pointer structure*
+([Bahdanau, Cho, Bengio - 2014](https://arxiv.org/abs/1409.0473)).  Rather than
+having to remember an entire text sequence, e.g., for machine translation in a
+fixed-dimensional representation, all that needed to be stored was a pointer to
+the intermediate state of the translation process. This allowed for
+significantly increased accuracy for long sequences, since the model no longer
+needed to remember the entire sequence before commencing the generation of a new
+one.
+* Built solely on attention mechanisms, the *Transformer* architecture
+  ([Vaswani, Shazeer, Parmar et al](https://arxiv.org/abs/1706.03762)) has
+demonstrated superior *scaling* behavior: it performs better with an increase in
+dataset size, model size, and amount of training compute ([Kaplan, McCandlish et
+al](https://arxiv.org/abs/2001.08361)). This architecture has demonstrated
+compelling success in a wide range of areas, such as natural language processing
+([Devlin, Chang, Lee, Toutanova](https://arxiv.org/abs/1810.04805), [Brown, Mann
+et al](https://arxiv.org/abs/2005.14165)), computer vision ([Dosvitskiy, Beyer,
+Kolesnikov et al](https://arxiv.org/abs/2010.11929), [Liu, Lin et
+al](https://arxiv.org/abs/2103.14030)), speech recognition ([Gulati, Qin et
+al](https://arxiv.org/abs/2005.08100)), reinforcement learning ([Chen, Lu,
+Rajeswaran et al](https://arxiv.org/abs/2106.01345)), and graph neural networks
+([Dwivedi & Bresson](https://arxiv.org/abs/2012.09699)). For example, a single
+Transformer pretrained on modalities as diverse as text, images, joint torques,
+and button presses can play Atari, caption images, chat, and control a robot
+([Reed, Zolna et al](https://arxiv.org/abs/2205.06175)).
+* Modeling probabilities of text sequences, *language models* can predict text
+  given other text. Scaling up the data, model, and compute has unlocked a
+growing number of capabilities of language models to perform desired tasks via
+human-like text generation based on input text ([Brown, Mann et
+al](https://arxiv.org/abs/2005.14165), [Rae, Borgeaud, Cai et
+al](https://arxiv.org/abs/2112.11446), [Hoffmann, Borgeaud, Mensch et
+al](https://arxiv.org/abs/2203.15556), [Chowdhery, Narang, Devlin et
+al](https://arxiv.org/abs/2204.02311), [OpenAI GPT-4 Technical
+Report](https://arxiv.org/abs/2303.08774), [Anil, Dai, Firat et
+al](https://arxiv.org/abs/2305.10403), [Touvron, Lavril, Izacard et
+al](https://arxiv.org/abs/2302.13971), [Touvron, Martin, Stone et
+al](https://arxiv.org/abs/2307.09288)).
+For instance, aligning language models with human intent ([Ouyang, Wu, Xu et
+al](https://arxiv.org/abs/2203.02155)), OpenAI's
+[ChatGPT](https://chat.openai.com/) allows users to interact with it in a
+conversational way to solve problems, such as code debugging and creative
+writing.
+* Multi-stage designs, e.g., via the memory networks ([Sukhbaatar, Weston &
+  Fergus](https://arxiv.org/abs/1503.08895)) and the neural
+programmer-interpreter ([Reed & De Freitas](https://arxiv.org/abs/1511.06279))
+permitted statistical modelers to describe iterative approaches to reasoning.
+These tools allow for an internal state of the deep neural network to be
+modified repeatedly, thus carrying out subsequent steps in a chain of reasoning,
+just as a processor can modify memory for a computation.
+* A key development in *deep generative modeling* was the invention of
+  *generative adversarial networks* ([Goodfellow, Pouget-Abadie, Mirza -
+2014](https://arxiv.org/abs/1406.2661)).  Traditionally, statistical methods for
+density estimation and generative models focused on finding proper probability
+distributions and (often approximate) algorithms for sampling from them.  As a
+result, these algorithms were largely limited by the lack of flexibility
+inherent in the statistical models.  The crucial innovation in generative
+adversarial networks was to replace the sampler by an arbitrary algorithm with
+differentiable parameters.  These are then adjusted in such a way that the
+discriminator (effectively a two-sample test) cannot distinguish fake from real
+data.  Through the ability to use arbitrary algorithms to generate data, density
+estimation was opened up to a wide variety of techniques.  Examples of galloping
+zebras ([Zhu, Park, Isola & Efros](https://arxiv.org/abs/1703.10593)) and of
+fake celebrity faces ([Karras, Aila, Laine,
+Lehtinen](https://arxiv.org/abs/1710.10196)) are each testimony to this
+progress.  Even amateur doodlers can produce photorealistic images just based on
+sketches describing the layout of a scene ([Park, Liu, Wang,
+Zhu](https://arxiv.org/abs/1903.07291)).
+* Furthermore, while the diffusion process gradually adds random noise to data
+  samples, *diffusion models* ([Sohl-Dickstein, Weiss, Maheswaranathan,
+Ganguli](https://arxiv.org/abs/1503.03585), [Ho, Jain &
+Abbeel](https://arxiv.org/abs/2006.11239)) learn the denoising process to
+gradually construct data samples from random noise, reversing the diffusion
+process. They have started to replace generative adversarial networks in more
+recent deep generative models, such as in DALL-E 2 ([Ramesh, Dhariwal et
+al](https://arxiv.org/abs/2204.06125)) and Imagen ([Saharia, Chan, Saxena et
+al](https://arxiv.org/abs/2205.11487)) for creative art and image generation
+based on text descriptions.
+* In many cases, a single GPU is insufficient for processing the large amounts
+  of data available for training.  Over the past decade the ability to build
+parallel and distributed training algorithms has improved significantly.  One of
+the key challenges in designing scalable algorithms is that the workhorse of
+deep learning optimization, stochastic gradient descent, relies on relatively
+small minibatches of data to be processed.  At the same time, small batches
+limit the efficiency of GPUs.  Hence, training on 1,024 GPUs with a minibatch
+size of, say, 32 images per batch amounts to an aggregate minibatch of about
+32,000 images. Work, first by [Mu Li in
+2017](https://www.cs.cmu.edu/~muli/file/mu-thesis.pdf) and subsequently by [You,
+Gitman and Ginsburg](https://arxiv.org/abs/1708.03888) and [Jia, Song, He et
+al](https://arxiv.org/abs/1807.11205) pushed the size up to 64,000 observations,
+reducing training time for the ResNet-50 model on the ImageNet dataset to less
+than 7 minutes.  By comparison, training times were initially of the order of
+days.
+* The ability to parallelize computation has also contributed to progress in
+  *reinforcement learning*.  This has led to significant progress in computers
+achieving superhuman performance on tasks like Go, Atari games, Starcraft, and
+in physics simulations (e.g., using MuJoCo) where environment simulators are
+available.  See, e.g., [Silver, Huang, Maddison et
+al](https://pubmed.ncbi.nlm.nih.gov/26819042/) for a description of such
+achievements in AlphaGo. In a nutshell, reinforcement learning works best if
+plenty of (state, action, reward) tuples are available.  Simulation provides
+such an avenue.
+* Deep learning frameworks have played a crucial role in disseminating ideas.
+  The first generation of open-source frameworks for neural network modeling
+consisted of [Caffe](https://github.com/BVLC/caffe),
+[Torch](https://github.com/torch), and
+[Theano](https://github.com/Theano/Theano).  Many seminal papers were written
+using these tools.  These have now been superseded by
+[TensorFlow](https://github.com/tensorflow/tensorflow) (often used via its
+high-level API [Keras](https://github.com/keras-team/keras)),
+[CNTK](https://github.com/Microsoft/CNTK), [Caffe
+2](https://github.com/caffe2/caffe2), and [Apache
+MXNet](https://github.com/apache/incubator-mxnet).  The third generation of
+frameworks consists of so-called *imperative* tools for deep learning, a trend
+that was arguably ignited by [Chainer](https://github.com/chainer/chainer),
+which used a syntax similar to Python NumPy to describe models.  This idea was
+adopted by both [PyTorch](https://github.com/pytorch/pytorch), the [Gluon
+API](https://github.com/apache/incubator-mxnet) of MXNet, and
+[JAX](https://github.com/google/jax).
 
 
-The division of labor between system researchers building better tools
-and statistical modelers building better neural networks
-has greatly simplified things. For instance,
-training a linear logistic regression model
-used to be a nontrivial homework problem,
-worthy to give to new machine learning
-Ph.D. students at Carnegie Mellon University in 2014.
-By now, this task can be accomplished
-with under 10 lines of code,
-putting it firmly within the reach of any programmer.
+The division of labor between system researchers building better tools and
+statistical modelers building better neural networks has greatly simplified
+things. For instance, training a linear logistic regression model used to be a
+nontrivial homework problem, worthy to give to new machine learning Ph.D.
+students at Carnegie Mellon University in 2014.  By now, this task can be
+accomplished with under 10 lines of code, putting it firmly within the reach of
+any programmer.
 
 
 ## Success Stories
@@ -1236,14 +1227,14 @@ Many of such advances are attributed to deep learning.
   The accuracy of such systems has gradually
   increased to the point
   of achieving parity with humans
-  for certain applications :cite:`Xiong.Wu.Alleva.ea.2018`.
+  for certain applications ([Xiong, Wu, Alleva et al](https://arxiv.org/abs/1708.06073)).
 * Object recognition has likewise come a long way.
   Identifying the object in a picture
   was a fairly challenging task in 2010.
   On the ImageNet benchmark researchers from NEC Labs
   and University of Illinois at Urbana-Champaign
-  achieved a top-five error rate of 28% :cite:`Lin.Lv.Zhu.ea.2010`.
-  By 2017, this error rate was reduced to 2.25% :cite:`Hu.Shen.Sun.2018`.
+  achieved a top-five error rate of 28% ([Lin, Lv, Zhu et al](https://image-net.org/static_files/files/ILSVRC2010_NEC-UIUC.pdf)).
+  By 2017, this error rate was reduced to 2.25% ([Hu, Shen & Sun](https://ieeexplore.ieee.org/document/8578843)).
   Similarly, stunning results have been achieved
   for identifying birdsong and for diagnosing skin cancer.
 * Prowess in games used to provide
@@ -1256,15 +1247,15 @@ Many of such advances are attributed to deep learning.
   a much more complex state space and set of actions.
   DeepBlue beat Garry Kasparov using massive parallelism,
   special-purpose hardware and efficient search
-  through the game tree :cite:`Campbell.Hoane-Jr.Hsu.2002`.
+  through the game tree ([Campbell, Hoane Jr & Hsu](https://www.semanticscholar.org/paper/Deep-Blue-Campbell-Hoane/3e4bc1aa55c752918ae99b1a125f6adef61afad2)).
   Go is more difficult still, due to its huge state space.
   AlphaGo reached human parity in 2015,
-  using deep learning combined with Monte Carlo tree sampling :cite:`Silver.Huang.Maddison.ea.2016`.
+  using deep learning combined with Monte Carlo tree sampling ([Silver, Huang, Maddison et al](https://pubmed.ncbi.nlm.nih.gov/26819042/)).
   The challenge in Poker was that the state space is large
   and only partially observed
   (we do not know the opponents' cards).
   Libratus exceeded human performance in Poker
-  using efficiently structured strategies :cite:`Brown.Sandholm.2017`.
+  using efficiently structured strategies ([Brown & Sandholm](https://noambrown.github.io/papers/17-IJCAI-Libratus.pdf)).
 * Another indication of progress in AI
   is the advent of self-driving vehicles.
   While full autonomy is not yet within reach,
@@ -1373,8 +1364,8 @@ one builds the system and then tunes their performance jointly.
 For instance, in computer vision scientists
 used to separate the process of *feature engineering*
 from the process of building machine learning models.
-The Canny edge detector :cite:`Canny.1987`
-and Lowe's SIFT feature extractor :cite:`Lowe.2004`
+The Canny edge detector ([Canny](https://ieeexplore.ieee.org/document/4767851))
+and Lowe's SIFT feature extractor ([Lowe](https://link.springer.com/article/10.1023/B:VISI.0000029664.99615.94))
 reigned supreme for over a decade as algorithms
 for mapping images into feature vectors.
 In bygone days, the crucial part of applying machine learning to these problems
