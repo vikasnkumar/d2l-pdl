@@ -8,5 +8,6 @@ and [Perl Data Language](https://pdl.perl.org) to do the same.
 
 - [Introduction](chapter_introduction/index.md)
 - [Installation](chapter_installation/index.md)
+- [Notation](chapter_notation/index.md)
 - [Preliminaries](chapter_preliminaries/index.md)
 
