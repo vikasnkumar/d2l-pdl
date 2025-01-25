@@ -26,7 +26,7 @@ We will install all the `PDL` modules in the user's home directory.
 $ sudo apt -y install perl cpanminus \
     liblocal-lib-perl build-essential \
     cmake pkg-config autotools-dev automake \
-    autoconf make g++ gfortran \
+    autoconf make g++ gfortran swig \
     gnuplot graphviz libjson-xs-perl libdatetime-perl
 
 ## install default modules for that perl version
@@ -57,6 +57,8 @@ for deep learning.
 $ source ~/.bashrc
 $ cpanm PDL PDL::Perldl2 Text::CSV_XS PDL::CCS GraphViz Hash::Ordered \
     Function::Parameters Mouse
+## for building AI::MXNet
+$ cpanm Alien::SWIG4 File::Which
 $ which perldl
 /home/myuser/perl5/bin/perldl
 $ which pdl2
@@ -108,7 +110,8 @@ Assume that you have installed CUDA 12.6, the instructions above should be
 sufficient.
 
 ```bash
-$ export MXNET_LIB=$HOME/mxnet/lib/
+$ export MXNET_DIR=$HOME/mxnet/
+$ export MXNET_LIB=$HOME/mxnet/lib
 $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MXNET_LIB
 ```
 
@@ -118,6 +121,56 @@ The Perl package [`AI::MXNet`](https://metacpan.org/pod/AI::MXNet) is a
 high-level package to use the MXNet C++ library in Perl with `PDL`. We will
 cover this in the upcoming chapters.
 
-`TBD installation for this module`
+After you have setup `PDL` correctly, you need to run the following to install
+`AI::MXNet`.
+
+We will install this from our Github
+[fork](https://github.com/selectiveintellect/modified-mxnet.git). If you have
+followed instructions from the above section, you already have this installed
+and have compiled the `libmxnet.so` library successfully, either in CPU mode or
+in GPU mode.
+
+The original MXNet code has been archived, so we have been making our own
+modifications to keep it working and up-to-date as best as possible.
+
+Remember that the environment variable `MXNET_DIR` has to be set as above to
+point to the **installed** version of the built library. This folder will have
+the include files and the library files that are needed by the Perl packages.
+
+```bash
+$ cd modified-mxnet/perl-package
+$ cd AI-NNVMCAPI
+$ perl Makefile.PL
+$ make
+$ make test
+$ make install
+$ cd ..
+```
+To test that the installation worked, you can run `perldoc AI::NNVMCAPI`.
+
+Next we install `AI-MXNetCAPI`.
+
+```bash
+$ cd modified-mxnet/perl-package
+$ cd AI-MXNetCAPI
+$ perl Makefile.PL
+$ make
+$ make test
+$ make install
+$ cd ..
+```
+To test that the installation worked, you can run `perldoc AI::MXNetCAPI`.
+
+Next we install `AI-MXNet`
+
+```bash
+$ cd modified-mxnet/perl-package
+$ cd AI-MXNet
+$ perl Makefile.PL
+$ make
+$ make test
+$ make install
+$ cd ..
+```
 
 [Notation](chapter_notation/index.md)
