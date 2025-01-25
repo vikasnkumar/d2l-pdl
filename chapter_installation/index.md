@@ -173,4 +173,4 @@ $ make install
 $ cd ..
 ```
 
-[Notation](chapter_notation/index.md)
+[Notation](../chapter_notation/index.md)
