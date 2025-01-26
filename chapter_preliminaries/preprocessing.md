@@ -169,52 +169,104 @@ pdl> print $df
 In supervised learning, we train models to predict a designated *target* value,
 given some set of *input* values.  Our first step in processing the dataset is
 to separate out columns corresponding to input versus target values.  We can
-select columns either by name or via integer-location based indexing (`iloc`).
+select columns either by name or via integer-location based indexing using the
+`at` function.
 
-You might have noticed that `pandas` replaced
-all CSV entries with value `NA`
-with a special `NaN` (*not a number*) value. 
-This can also happen whenever an entry is empty,
-e.g., "3,,,270000".
-These are called *missing values* 
-and they are the "bed bugs" of data science,
-a persistent menace that you will confront
-throughout your career. 
-Depending upon the context, 
-missing values might be handled
-either via *imputation* or *deletion*.
-Imputation replaces missing values 
-with estimates of their values
-while deletion simply discards 
-either those rows or those columns
-that contain missing values. 
+You might have noticed that `Data::Frame` automatically converts empty or blank
+values to `BAD` if the column is numeric, and leaves it as empty or blank if the
+column is of string type. `Data::Frame` creates a
+[`PDL::SV`](https://metacpan.org/pod/PDL::SV) object for the string columns and
+a regular `PDL` object for the numerical ones.
 
-Here are some common imputation heuristics.
-[**For categorical input fields, 
-we can treat `NaN` as a category.**]
-Since the `RoofType` column takes values `Slate` and `NaN`,
-`pandas` can convert this column 
-into two columns `RoofType_Slate` and `RoofType_nan`.
-A row whose roof type is `Slate` will set values 
-of `RoofType_Slate` and `RoofType_nan` to 1 and 0, respectively.
-The converse holds for a row with a missing `RoofType` value.
+`BAD` values are described
+[here](https://metacpan.org/dist/PDL/view/lib/PDL/BadValues.pod) so we will not
+be describing it here, but `PDL` allows invalid values to be set to `BAD` which
+is different from `NaN` (not a number) which could be a valid value in the
+dataset.
 
-```{.python .input}
-%%tab all
-inputs, targets = data.iloc[:, 0:2], data.iloc[:, 2]
-inputs = pd.get_dummies(inputs, dummy_na=True)
-print(inputs)
+*Missing values* or invalid values are important in data science, and must be
+handled correctly. Depending upon the context, missing values might be handled
+either via *imputation* or *deletion*.  Imputation replaces missing values with
+estimates of their values while deletion simply discards either those rows or
+those columns that contain missing values. 
+
+Here are some common imputation heuristics. For categorical input fields, a
+blank or empty value can be treated as an _unknown_ category.  Since the
+`RoofType` column takes values `Slate` and blank, `Data::Frame` can convert this
+column into two columns `RoofTypeIsSlate` and `RoofTypeIsUnknown`.  A row whose
+roof type is `Slate` will set values of `RoofType_Slate` and `RoofType_unknown`
+to 1 and 0, respectively.  The converse holds for a row with a missing
+`RoofType` value.
+
+```perl
+pdl> $roof = $df->at("RoofType")->unpdl
+pdl> print Dumper($roof)
+$VAR1 = [
+          '',
+          '',
+          'Slate',
+          ''
+        ];
+pdl> $roof_is_slate = pdl(map { $_ eq 'Slate' ? 1 : 0 } @$roof)
+pdl> print $roof_is_slate
+[0 0 1 0]
+
+### we can add this as a column now
+pdl> $df->add_column("RoofTypeIsSlate", $roof_is_slate)
+pdl> print $df
+--------------------------------------------
+    NumRooms  RoofType  Price   RoofTypeIsSlate 
+--------------------------------------------
+ 0  BAD                 127500  0           
+ 1  2                   106000  0           
+ 2  4         Slate     178100  1           
+ 3  BAD                 140000  0           
+--------------------------------------------
+
+## we can also add a column to track unknown roof types
+pdl> $df->add_column("RoofTypeIsUnknown", pdl(map { $_ eq '' ? 1 : 0 } @$roof))
+pdl> print $df
+-----------------------------------------------------------
+    NumRooms  RoofType  Price   RoofTypeIsSlate  RoofTypeIsUnknown 
+-----------------------------------------------------------
+ 0  BAD                 127500  0            1             
+ 1  2                   106000  0            1             
+ 2  4         Slate     178100  1            0             
+ 3  BAD                 140000  0            1             
+-----------------------------------------------------------
 ```
 
-For missing numerical values, 
-one common heuristic is to 
-[**replace the `NaN` entries with 
-the mean value of the corresponding column**].
+For missing numerical values, one common heuristic is to replace the `BAD` or
+missing entries with the mean value of the corresponding column.
 
-```{.python .input}
-%%tab all
-inputs = inputs.fillna(inputs.mean())
-print(inputs)
+```perl
+pdl> print $df->at("NumRooms")->avg
+3
+pdl> $df->at("NumRooms")->inplace->setbadtoval(3)
+pdl> print $df
+-----------------------------------------------------------
+    NumRooms  RoofType  Price   RoofTypeIsSlate  RoofTypeIsUnknown 
+-----------------------------------------------------------
+ 0  3                   127500  0            1             
+ 1  2                   106000  0            1             
+ 2  4         Slate     178100  1            0             
+ 3  3                   140000  0            1             
+-----------------------------------------------------------
+```
+
+Let's now remove the `RoofType` column for making the calculations easier.
+
+```perl
+pdl> $df->delete("RoofType")
+pdl> print $df
+-------------------------------------------------
+    NumRooms  Price   RoofIsSlate  RoofIsUnknown 
+-------------------------------------------------
+ 0  3         127500  0            1             
+ 1  2         106000  0            1             
+ 2  4         178100  1            0             
+ 3  3         140000  0            1             
+-------------------------------------------------
 ```
 
 ## Conversion to the Tensor Format
