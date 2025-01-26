@@ -56,7 +56,7 @@ for deep learning.
 ```bash
 $ source ~/.bashrc
 $ cpanm PDL PDL::Perldl2 Text::CSV_XS PDL::CCS GraphViz Hash::Ordered \
-    Function::Parameters Mouse
+    Function::Parameters Mouse PDL::IO::CSV Data::Frame
 ## for building AI::MXNet
 $ cpanm Alien::SWIG4 File::Which
 $ which perldl
