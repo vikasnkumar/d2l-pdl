@@ -267,104 +267,86 @@ pdl> print $df
  2  4         178100  1            0             
  3  3         140000  0            1             
 -------------------------------------------------
+pdl> $targets = $df->select_columns('Price')
+pdl> print $targets
+-----------
+    Price  
+-----------
+ 0  127500 
+ 1  106000 
+ 2  178100 
+ 3  140000 
+-----------
+pdl> $inputs = $df->select_columns(qw(NumRooms RoofIsSlate RoofIsUnknown))
+pdl> print $inputs
+-----------------------------------------
+    NumRooms  RoofIsSlate  RoofIsUnknown 
+-----------------------------------------
+ 0  3         0            1             
+ 1  2         0            1             
+ 2  4         1            0             
+ 3  3         0            1             
+-----------------------------------------
+
 ```
 
 ## Conversion to the Tensor Format
 
-Now that [**all the entries in `inputs` and `targets` are numerical,
-we can load them into a tensor**] (recall :numref:`sec_ndarray`).
+Now that all the entries in `$inputs` and `$targets` are numerical, we can load
+them into a tensor ([recall](ndarray.md)).
 
-```{.python .input}
-%%tab mxnet
-from mxnet import np
+```perl
+pdl> $y = $targets->at(0)
+pdl> print $y
+[127500 106000 178100 140000]
+pdl> $x = pdl($inputs->column("NumRooms"), $inputs->column("RoofIsSlate"), $inputs->column("RoofIsUnknown"))->transpose
+pdl> print $x
 
-X, y = np.array(inputs.to_numpy(dtype=float)), np.array(targets.to_numpy(dtype=float))
-X, y
-```
-
-```{.python .input}
-%%tab pytorch
-import torch
-
-X = torch.tensor(inputs.to_numpy(dtype=float))
-y = torch.tensor(targets.to_numpy(dtype=float))
-X, y
-```
-
-```{.python .input}
-%%tab tensorflow
-import tensorflow as tf
-
-X = tf.constant(inputs.to_numpy(dtype=float))
-y = tf.constant(targets.to_numpy(dtype=float))
-X, y
-```
-
-```{.python .input}
-%%tab jax
-from jax import numpy as jnp
-
-X = jnp.array(inputs.to_numpy(dtype=float))
-y = jnp.array(targets.to_numpy(dtype=float))
-X, y
+[
+ [3 0 1]
+ [2 0 1]
+ [4 1 0]
+ [3 0 1]
+]
 ```
 
 ## Discussion
 
-You now know how to partition data columns, 
-impute missing variables, 
-and load `pandas` data into tensors. 
-In :numref:`sec_kaggle_house`, you will
-pick up some more data processing skills. 
-While this crash course kept things simple,
-data processing can get hairy.
-For example, rather than arriving in a single CSV file,
-our dataset might be spread across multiple files
-extracted from a relational database.
-For instance, in an e-commerce application,
-customer addresses might live in one table
-and purchase data in another.
-Moreover, practitioners face myriad data types
-beyond categorical and numeric, for example,
-text strings, images,
-audio data, and point clouds. 
-Oftentimes, advanced tools and efficient algorithms 
-are required in order to prevent data processing from becoming
-the biggest bottleneck in the machine learning pipeline. 
-These problems will arise when we get to 
-computer vision and natural language processing. 
-Finally, we must pay attention to data quality.
-Real-world datasets are often plagued 
-by outliers, faulty measurements from sensors, and recording errors, 
-which must be addressed before 
-feeding the data into any model. 
-Data visualization tools such as [seaborn](https://seaborn.pydata.org/), 
-[Bokeh](https://docs.bokeh.org/), or [matplotlib](https://matplotlib.org/)
-can help you to manually inspect the data 
-and develop intuitions about 
-the type of problems you may need to address.
+You now know how to partition data columns, impute missing variables, and load
+data into tensors using tools available in Perl, `PDL` and `Data::Frame`.  In
+future sections, you will pick up some more data processing skills.  While this
+crash course kept things simple, data processing can get hairy.  For example,
+rather than arriving in a single CSV file, our dataset might be spread across
+multiple files extracted from a relational database.  For instance, in an
+e-commerce application, customer addresses might live in one table and purchase
+data in another.  Moreover, practitioners face myriad data types beyond
+categorical and numeric, for example, text strings, images, audio data, and
+point clouds.  Oftentimes, advanced tools and efficient algorithms are required
+in order to prevent data processing from becoming the biggest bottleneck in the
+machine learning pipeline.  These problems will arise when we get to computer
+vision and natural language processing. 
+
+Finally, we must pay attention to data quality.  Real-world datasets are often
+plagued by outliers, faulty measurements from sensors, and recording errors,
+which must be addressed before feeding the data into any model. We will need
+data visualization tools such as
+[PDL::Graphics::GnuPlot](https://metacpan.org/pod/PDL::Graphics::Gnuplot) and
+[HighCharts](https://www.highcharts.com) to inspect data and develop intuitions
+about the type of problems you may need to address.
 
 
 ## Exercises
 
-1. Try loading datasets, e.g., Abalone from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets) and inspect their properties. What fraction of them has missing values? What fraction of the variables is numerical, categorical, or text?
-1. Try indexing and selecting data columns by name rather than by column number. The pandas documentation on [indexing](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html) has further details on how to do this.
-1. How large a dataset do you think you could load this way? What might be the limitations? Hint: consider the time to read the data, representation, processing, and memory footprint. Try this out on your laptop. What happens if you try it out on a server? 
-1. How would you deal with data that has a very large number of categories? What if the category labels are all unique? Should you include the latter?
-1. What alternatives to pandas can you think of? How about [loading NumPy tensors from a file](https://numpy.org/doc/stable/reference/generated/numpy.load.html)? Check out [Pillow](https://python-pillow.org/), the Python Imaging Library. 
+1. Try loading datasets, e.g., Abalone from the [UCI Machine Learning
+   Repository](https://archive.ics.uci.edu/ml/datasets) and inspect their
+properties. What fraction of them has missing values? What fraction of the
+variables is numerical, categorical, or text?
+1. How large a dataset do you think you could load this way? What might be the
+   limitations? Hint: consider the time to read the data, representation,
+processing, and memory footprint. Try this out on your laptop. What happens if
+you try it out on a server? 
+1. How would you deal with data that has a very large number of categories? What
+   if the category labels are all unique? Should you include the latter?
 
-:begin_tab:`mxnet`
-[Discussions](https://discuss.d2l.ai/t/28)
-:end_tab:
 
-:begin_tab:`pytorch`
-[Discussions](https://discuss.d2l.ai/t/29)
-:end_tab:
-
-:begin_tab:`tensorflow`
-[Discussions](https://discuss.d2l.ai/t/195)
-:end_tab:
-
-:begin_tab:`jax`
-[Discussions](https://discuss.d2l.ai/t/17967)
-:end_tab:
+[Next - Linear Algebra](linear-algebra.md)
