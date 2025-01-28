@@ -1,203 +1,108 @@
 # Linear Algebra
 
-By now, we can load datasets into tensors
-and manipulate these tensors
-with basic mathematical operations.
-To start building sophisticated models,
-we will also need a few tools from linear algebra.
-This section offers a gentle introduction
-to the most essential concepts,
-starting from scalar arithmetic
-and ramping up to matrix multiplication.
-
-```{.python .input}
-%%tab mxnet
-from mxnet import np, npx
-npx.set_np()
-```
-
-```{.python .input}
-%%tab pytorch
-import torch
-```
-
-```{.python .input}
-%%tab tensorflow
-import tensorflow as tf
-```
-
-```{.python .input}
-%%tab jax
-from jax import numpy as jnp
-```
+By now, we can load datasets into tensors and manipulate these tensors with
+basic mathematical operations.  To start building sophisticated models, we will
+also need a few tools from linear algebra.  This section offers a gentle
+introduction to the most essential concepts, starting from scalar arithmetic and
+ramping up to matrix multiplication.
 
 ## Scalars
 
+Most everyday mathematics consists of manipulating numbers one at a time.
+Formally, we call these values _scalars_.  For example, the temperature in Palo
+Alto is a balmy $$72$$ degrees Fahrenheit.  If you wanted to convert the
+temperature to Celsius you would evaluate the expression $$c = \frac{5}{9}(f -
+32)$$, setting $$f$$ to $$72$$.  In this equation, the values $$5$$, $$9$$, and
+$$32$$ are constant scalars.  The variables $$c$$ and $$f$$ in general represent
+unknown scalars.
 
-Most everyday mathematics
-consists of manipulating
-numbers one at a time.
-Formally, we call these values *scalars*.
-For example, the temperature in Palo Alto
-is a balmy $72$ degrees Fahrenheit.
-If you wanted to convert the temperature to Celsius
-you would evaluate the expression
-$c = \frac{5}{9}(f - 32)$, setting $f$ to $72$.
-In this equation, the values
-$5$, $9$, and $32$ are constant scalars.
-The variables $c$ and $f$
-in general represent unknown scalars.
+We denote scalars by ordinary lower-cased letters (e.g., $$x$$, $$y$$, and
+$$z$$) and the space of all (continuous) _real-valued_ scalars by
+$$\mathbb{R}$$.  For expedience, we will skip past rigorous definitions of
+_spaces_: just remember that the expression $$x \in \mathbb{R}$$ is a formal way
+to say that $$x$$ is a real-valued scalar.  The symbol $$\in$$ (pronounced "in")
+denotes membership in a set.  For example, $$x, y \in \{0, 1\}$$ indicates that
+$$x$$ and $$y$$ are variables that can only take values $$0$$ or $$1$$.
 
-We denote scalars
-by ordinary lower-cased letters
-(e.g., $x$, $y$, and $z$)
-and the space of all (continuous)
-*real-valued* scalars by $\mathbb{R}$.
-For expedience, we will skip past
-rigorous definitions of *spaces*:
-just remember that the expression $x \in \mathbb{R}$
-is a formal way to say that $x$ is a real-valued scalar.
-The symbol $\in$ (pronounced "in")
-denotes membership in a set.
-For example, $x, y \in \{0, 1\}$
-indicates that $x$ and $y$ are variables
-that can only take values $0$ or $1$.
+**Scalars are implemented as tensors that contain only one element.** Below, we
+assign two scalars and perform the familiar addition, multiplication, division,
+and exponentiation operations.
 
-(**Scalars are implemented as tensors
-that contain only one element.**)
-Below, we assign two scalars
-and perform the familiar addition, multiplication,
-division, and exponentiation operations.
-
-```{.python .input}
-%%tab mxnet
-x = np.array(3.0)
-y = np.array(2.0)
-
-x + y, x * y, x / y, x ** y
-```
-
-```{.python .input}
-%%tab pytorch
-x = torch.tensor(3.0)
-y = torch.tensor(2.0)
-
-x + y, x * y, x / y, x**y
-```
-
-```{.python .input}
-%%tab tensorflow
-x = tf.constant(3.0)
-y = tf.constant(2.0)
-
-x + y, x * y, x / y, x**y
-```
-
-```{.python .input}
-%%tab jax
-x = jnp.array(3.0)
-y = jnp.array(2.0)
-
-x + y, x * y, x / y, x**y
+```perl
+pdl> $x = ones(1) * 3.0
+pdl> $y = ones(1) * 2.0
+pdl> print $x, $y
+[3] [2]
+pdl> print $x+$y
+pdl> print $x + $y, $x * $y, $x / $y, $x ** $y
+[5] [6] [1.5] [9]
 ```
 
 ## Vectors
 
-For current purposes, [**you can think of a vector as a fixed-length array of scalars.**]
-As with their code counterparts,
-we call these scalars the *elements* of the vector
-(synonyms include *entries* and *components*).
-When vectors represent examples from real-world datasets,
-their values hold some real-world significance.
-For example, if we were training a model to predict
-the risk of a loan defaulting,
-we might associate each applicant with a vector
-whose components correspond to quantities
-like their income, length of employment,
-or number of previous defaults.
-If we were studying the risk of heart attack,
-each vector might represent a patient
-and its components might correspond to
-their most recent vital signs, cholesterol levels,
-minutes of exercise per day, etc.
-We denote vectors by bold lowercase letters,
-(e.g., $\mathbf{x}$, $\mathbf{y}$, and $\mathbf{z}$).
+For current purposes, _you can think of a vector as a fixed-length array of
+scalars_.  As with their code counterparts, we call these scalars the _elements_
+of the vector (synonyms include _entries_ and _components_).  When vectors
+represent examples from real-world datasets, their values hold some real-world
+significance.  For example, if we were training a model to predict the risk of a
+loan defaulting, we might associate each applicant with a vector whose
+components correspond to quantities like their income, length of employment, or
+number of previous defaults.  If we were studying the risk of heart attack, each
+vector might represent a patient and its components might correspond to their
+most recent vital signs, cholesterol levels, minutes of exercise per day, etc.
+We denote vectors by bold lowercase letters, (e.g., $$\mathbf{x}$$, $$\mathbf{y}$$,
+and $$\mathbf{z}$$).
 
-Vectors are implemented as $1^{\textrm{st}}$-order tensors.
-In general, such tensors can have arbitrary lengths,
-subject to memory limitations. Caution: in Python, as in most programming languages, vector indices start at $0$, also known as *zero-based indexing*, whereas in linear algebra subscripts begin at $1$ (one-based indexing).
+Vectors are implemented as $$1^{\textrm{st}}$$-order tensors.  In general, such
+tensors can have arbitrary lengths, subject to memory limitations. **Caution**:
+in Perl (and in `PDL`), as in most programming languages, vector indices start
+at $$0$$, also known as *zero-based indexing*, whereas in linear algebra
+subscripts begin at $$1$$ (one-based indexing).
 
-```{.python .input}
-%%tab mxnet
-x = np.arange(3)
-x
+```perl
+pdl> $x = sequence(3)
+pdl> print $x
+[0 1 2]
 ```
 
-```{.python .input}
-%%tab pytorch
-x = torch.arange(3)
-x
-```
-
-```{.python .input}
-%%tab tensorflow
-x = tf.range(3)
-x
-```
-
-```{.python .input}
-%%tab jax
-x = jnp.arange(3)
-x
-```
-
-We can refer to an element of a vector by using a subscript.
-For example, $x_2$ denotes the second element of $\mathbf{x}$.
-Since $x_2$ is a scalar, we do not bold it.
-By default, we visualize vectors
-by stacking their elements vertically:
+We can refer to an element of a vector by using a subscript.  For example,
+$$x_2$$ denotes the second element of $$\mathbf{x}$$.  Since $$x_2$$ is a
+scalar, we do not bold it.  By default, we visualize vectors by stacking their
+elements vertically:
 
 $$\mathbf{x} =\begin{bmatrix}x_{1}  \\ \vdots  \\x_{n}\end{bmatrix}.$$
-:eqlabel:`eq_vec_def`
 
-Here $x_1, \ldots, x_n$ are elements of the vector.
-Later on, we will distinguish between such *column vectors*
-and *row vectors* whose elements are stacked horizontally.
-Recall that [**we access a tensor's elements via indexing.**]
+Here $$x_1, \ldots, x_n$$ are elements of the vector.  Later on, we will
+distinguish between such _column vectors_ and *row vectors* whose elements are
+stacked horizontally.  Recall that _we access a tensor's elements via indexing_.
 
-```{.python .input}
-%%tab all
-x[2]
+```perl
+pdl> print $x(2)
+[2]
 ```
 
-To indicate that a vector contains $n$ elements,
-we write $\mathbf{x} \in \mathbb{R}^n$.
-Formally, we call $n$ the *dimensionality* of the vector.
-[**In code, this corresponds to the tensor's length**],
-accessible via Python's built-in `len` function.
+To indicate that a vector contains $$n$$ elements, we write $$\mathbf{x} \in
+\mathbb{R}^n$$.  Formally, we call $$n$$ the *dimensionality* of the vector.  In
+code, this corresponds to the tensor's length, accessible via the `length`
+function in `PDL`. The output of `length` is identical to `dims`, which is the
+generic dimensionality retrieval function.  The return value of `dims` is a
+tuple that indicates a tensor's length along each axis.  _Tensors with just one
+axis have shapes with just one element._ We can also use the `shape` function
+to return a `PDL` object with the dimensions.
 
-```{.python .input}
-%%tab all
-len(x)
+```perl
+pdl> print $x->length
+3
+pdl> print $x->dims
+3
+pdl> print $x->shape
+[3]
 ```
 
-We can also access the length via the `shape` attribute.
-The shape is a tuple that indicates a tensor's length along each axis.
-(**Tensors with just one axis have shapes with just one element.**)
-
-```{.python .input}
-%%tab all
-x.shape
-```
-
-Oftentimes, the word "dimension" gets overloaded
-to mean both the number of axes
-and the length along a particular axis.
-To avoid this confusion,
-we use *order* to refer to the number of axes
-and *dimensionality* exclusively to refer
-to the number of components.
-
+Oftentimes, the word "dimension" gets overloaded to mean both the number of axes
+and the length along a particular axis.  To avoid this confusion, we use *order*
+to refer to the number of axes and *dimensionality* exclusively to refer to the
+number of components.
 
 ## Matrices
 
@@ -1133,18 +1038,3 @@ To recap:
 1. Consider three large matrices, say $\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$, $\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$ and $\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{16}}$. Is there any difference in speed depending on whether you compute $\mathbf{A} \mathbf{B}$ or $\mathbf{A} \mathbf{C}^\top$? Why? What changes if you initialize $\mathbf{C} = \mathbf{B}^\top$ without cloning memory? Why?
 1. Consider three matrices, say $\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$. Construct a tensor with three axes by stacking $[\mathbf{A}, \mathbf{B}, \mathbf{C}]$. What is the dimensionality? Slice out the second coordinate of the third axis to recover $\mathbf{B}$. Check that your answer is correct.
 
-:begin_tab:`mxnet`
-[Discussions](https://discuss.d2l.ai/t/30)
-:end_tab:
-
-:begin_tab:`pytorch`
-[Discussions](https://discuss.d2l.ai/t/31)
-:end_tab:
-
-:begin_tab:`tensorflow`
-[Discussions](https://discuss.d2l.ai/t/196)
-:end_tab:
-
-:begin_tab:`jax`
-[Discussions](https://discuss.d2l.ai/t/17968)
-:end_tab:
