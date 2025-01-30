@@ -9,12 +9,12 @@ ramping up to matrix multiplication.
 ## Scalars
 
 Most everyday mathematics consists of manipulating numbers one at a time.
-Formally, we call these values _scalars_.  For example, the temperature in Palo
-Alto is a balmy $$72$$ degrees Fahrenheit.  If you wanted to convert the
-temperature to Celsius you would evaluate the expression $$c = \frac{5}{9}(f -
-32)$$, setting $$f$$ to $$72$$.  In this equation, the values $$5$$, $$9$$, and
-$$32$$ are constant scalars.  The variables $$c$$ and $$f$$ in general represent
-unknown scalars.
+Formally, we call these values _scalars_.  For example, the temperature in
+Orlando, Florida is a balmy $$72$$ degrees Fahrenheit.  If you wanted to convert
+the temperature to Celsius you would evaluate the expression $$c = \frac{5}{9}(f
+- 32)$$, setting $$f$$ to $$72$$.  In this equation, the values $$5$$, $$9$$,
+  and $$32$$ are constant scalars.  The variables $$c$$ and $$f$$ in general
+represent unknown scalars.
 
 We denote scalars by ordinary lower-cased letters (e.g., $$x$$, $$y$$, and
 $$z$$) and the space of all (continuous) _real-valued_ scalars by
@@ -55,9 +55,9 @@ and $$\mathbf{z}$$).
 
 Vectors are implemented as $$1^{\textrm{st}}$$-order tensors.  In general, such
 tensors can have arbitrary lengths, subject to memory limitations. **Caution**:
-in Perl (and in `PDL`), as in most programming languages, vector indices start
-at $$0$$, also known as *zero-based indexing*, whereas in linear algebra
-subscripts begin at $$1$$ (one-based indexing).
+in Perl (and in `PDL`), as in most _reasonable_ programming languages, vector
+indices start at $$0$$, also known as *zero-based indexing*, whereas in linear
+algebra subscripts begin at $$1$$ (one-based indexing), in this document.
 
 ```perl
 pdl> $x = sequence(3)
@@ -106,65 +106,41 @@ number of components.
 
 ## Matrices
 
-Just as scalars are $0^{\textrm{th}}$-order tensors
-and vectors are $1^{\textrm{st}}$-order tensors,
-matrices are $2^{\textrm{nd}}$-order tensors.
-We denote matrices by bold capital letters
-(e.g., $\mathbf{X}$, $\mathbf{Y}$, and $\mathbf{Z}$),
-and represent them in code by tensors with two axes.
-The expression $\mathbf{A} \in \mathbb{R}^{m \times n}$
-indicates that a matrix $\mathbf{A}$
-contains $m \times n$ real-valued scalars,
-arranged as $m$ rows and $n$ columns.
-When $m = n$, we say that a matrix is *square*.
-Visually, we can illustrate any matrix as a table.
-To refer to an individual element,
-we subscript both the row and column indices, e.g.,
-$a_{ij}$ is the value that belongs to $\mathbf{A}$'s
-$i^{\textrm{th}}$ row and $j^{\textrm{th}}$ column:
+Just as scalars are $$0^{\textrm{th}}$$-order tensors and vectors are
+$$1^{\textrm{st}}$$-order tensors, matrices are $$2^{\textrm{nd}}$$-order tensors.
+We denote matrices by bold capital letters (e.g., $$\mathbf{X}$$, $$\mathbf{Y}$$,
+and $$\mathbf{Z}$$), and represent them in code by tensors with two axes.  The
+expression $$\mathbf{A} \in \mathbb{R}^{m \times n}$$ indicates that a matrix
+$$\mathbf{A}$$ contains $$m \times n$$ real-valued scalars, arranged as $$m$$ rows and
+$$n$$ columns.  When $$m = n$$, we say that a matrix is *square*.  Visually, we can
+illustrate any matrix as a table.  To refer to an individual element, we
+subscript both the row and column indices, e.g., $$a_{ij}$$ is the value that
+belongs to $$\mathbf{A}$$'s $$i^{\textrm{th}}$$ row and $$j^{\textrm{th}}$$ column:
 
 $$\mathbf{A}=\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \\ \end{bmatrix}.$$
-:eqlabel:`eq_matrix_def`
 
 
-In code, we represent a matrix $\mathbf{A} \in \mathbb{R}^{m \times n}$
-by a $2^{\textrm{nd}}$-order tensor with shape ($m$, $n$).
-[**We can convert any appropriately sized $m \times n$ tensor
-into an $m \times n$ matrix**]
-by passing the desired shape to `reshape`:
+In code, we represent a matrix $$\mathbf{A} \in \mathbb{R}^{m \times n}$$ by a
+$$2^{\textrm{nd}}$$-order tensor with shape ($$m$$, $$n$$).  _We can convert any
+appropriately sized $$m \times n$$ tensor into an $$m \times n$$ matrix_ by
+passing the desired shape to `reshape`. Recall that `PDL` requires the order to
+be swapped since it uses column-major form:
 
-```{.python .input}
-%%tab mxnet
-A = np.arange(6).reshape(3, 2)
-A
+```perl
+pdl> $A = sequence(6)->reshape(2,3)
+pdl> print $A
+[
+ [0 1]
+ [2 3]
+ [4 5]
+]
 ```
 
-```{.python .input}
-%%tab pytorch
-A = torch.arange(6).reshape(3, 2)
-A
-```
-
-```{.python .input}
-%%tab tensorflow
-A = tf.reshape(tf.range(6), (3, 2))
-A
-```
-
-```{.python .input}
-%%tab jax
-A = jnp.arange(6).reshape(3, 2)
-A
-```
-
-Sometimes we want to flip the axes.
-When we exchange a matrix's rows and columns,
-the result is called its *transpose*.
-Formally, we signify a matrix $\mathbf{A}$'s transpose
-by $\mathbf{A}^\top$ and if $\mathbf{B} = \mathbf{A}^\top$,
-then $b_{ij} = a_{ji}$ for all $i$ and $j$.
-Thus, the transpose of an $m \times n$ matrix
-is an $n \times m$ matrix:
+Sometimes we want to flip the axes.  When we exchange a matrix's rows and
+columns, the result is called its _transpose_.  Formally, we signify a matrix
+$$\mathbf{A}$$'s transpose by $$\mathbf{A}^\top$$ and if $$\mathbf{B} =
+\mathbf{A}^\top$$, then $$b_{ij} = a_{ji}$$ for all $$i$$ and $$j$$.  Thus, the
+transpose of an $$m \times n$$ matrix is an $$n \times m$$ matrix:
 
 $$
 \mathbf{A}^\top =
@@ -176,52 +152,36 @@ $$
 \end{bmatrix}.
 $$
 
-In code, we can access any (**matrix's transpose**) as follows:
+In code, we can access _any matrix's transpose_ using the `transpose` function
+as shown below:
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.T
+```perl
+pdl> print $A->transpose
+[
+ [0 2 4]
+ [1 3 5]
+]
 ```
 
-```{.python .input}
-%%tab tensorflow
-tf.transpose(A)
-```
-
-[**Symmetric matrices are the subset of square matrices
-that are equal to their own transposes:
-$\mathbf{A} = \mathbf{A}^\top$.**]
+Symmetric matrices are the subset of square matrices that are equal to their own
+transposes:
+$$\mathbf{A} = \mathbf{A}^\top$$.
 The following matrix is symmetric:
 
-```{.python .input}
-%%tab mxnet
-A = np.array([[1, 2, 3], [2, 0, 4], [3, 4, 5]])
-A == A.T
+```perl
+pdl> $A = pdl([[1, 2, 3], [2, 0, 4], [3, 4, 5]])
+pdl> print $A == $A->transpose
+
+[
+ [1 1 1]
+ [1 1 1]
+ [1 1 1]
+]
+
 ```
 
-```{.python .input}
-%%tab pytorch
-A = torch.tensor([[1, 2, 3], [2, 0, 4], [3, 4, 5]])
-A == A.T
-```
-
-```{.python .input}
-%%tab tensorflow
-A = tf.constant([[1, 2, 3], [2, 0, 4], [3, 4, 5]])
-A == tf.transpose(A)
-```
-
-```{.python .input}
-%%tab jax
-A = jnp.array([[1, 2, 3], [2, 0, 4], [3, 4, 5]])
-A == A.T
-```
-
-Matrices are useful for representing datasets.
-Typically, rows correspond to individual records
-and columns correspond to distinct attributes.
-
-
+Matrices are useful for representing datasets.  Typically, rows correspond to
+individual records and columns correspond to distinct attributes.
 
 ## Tensors
 
