@@ -438,78 +438,46 @@ pdl> print $A->cumusumover
 
 ## Dot Products
 
-So far, we have only performed elementwise operations, sums, and averages.
-And if this was all we could do, linear algebra
-would not deserve its own section.
-Fortunately, this is where things get more interesting.
-One of the most fundamental operations is the dot product.
-Given two vectors $\mathbf{x}, \mathbf{y} \in \mathbb{R}^d$,
-their *dot product* $\mathbf{x}^\top \mathbf{y}$ (also known as *inner product*, $\langle \mathbf{x}, \mathbf{y}  \rangle$)
-is a sum over the products of the elements at the same position:
-$\mathbf{x}^\top \mathbf{y} = \sum_{i=1}^{d} x_i y_i$.
+So far, we have only performed elementwise operations, sums, and averages.  And
+if this was all we could do, linear algebra would not deserve its own section.
+Fortunately, this is where things get more interesting.  One of the most
+fundamental operations is the dot product.  Given two vectors $$\mathbf{x},
+\mathbf{y} \in \mathbb{R}^d$$, their *dot product* $$\mathbf{x}^\top
+\mathbf{y}$$ (also known as *inner product*, $$\langle \mathbf{x}, \mathbf{y}
+\rangle$$) is a sum over the products of the elements at the same position:
+$$\mathbf{x}^\top \mathbf{y} = \sum_{i=1}^{d} x_i y_i$$.
 
-[~~The *dot product* of two vectors is a sum over the products of the elements at the same position~~]
+The *dot product* of two vectors is a sum over the products of the elements at
+the same position.
 
-```{.python .input}
-%%tab mxnet
-y = np.ones(3)
-x, y, np.dot(x, y)
+In `PDL`, the _dot product_ can be obtained by using the `inner` function for
+two vectors, since it is also known as the _inner product_ of two vectors.
+
+```perl
+pdl> $x = sequence(3)
+pdl> $y = ones(3)
+pdl> print inner($x,$y)
+3
 ```
 
-```{.python .input}
-%%tab pytorch
-y = torch.ones(3, dtype = torch.float32)
-x, y, torch.dot(x, y)
+Equivalently, we can calculate the dot product of two vectors
+by performing an elementwise multiplication followed by a sum:
+
+```perl
+pdl> print sum($x * $y)
+3
 ```
 
-```{.python .input}
-%%tab tensorflow
-y = tf.ones(3, dtype=tf.float32)
-x, y, tf.tensordot(x, y, axes=1)
-```
-
-```{.python .input}
-%%tab jax
-y = jnp.ones(3, dtype = jnp.float32)
-x, y, jnp.dot(x, y)
-```
-
-Equivalently, (**we can calculate the dot product of two vectors
-by performing an elementwise multiplication followed by a sum:**)
-
-```{.python .input}
-%%tab mxnet
-np.sum(x * y)
-```
-
-```{.python .input}
-%%tab pytorch
-torch.sum(x * y)
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_sum(x * y)
-```
-
-```{.python .input}
-%%tab jax
-jnp.sum(x * y)
-```
-
-Dot products are useful in a wide range of contexts.
-For example, given some set of values,
-denoted by a vector $\mathbf{x}  \in \mathbb{R}^n$,
-and a set of weights, denoted by $\mathbf{w} \in \mathbb{R}^n$,
-the weighted sum of the values in $\mathbf{x}$
-according to the weights $\mathbf{w}$
-could be expressed as the dot product $\mathbf{x}^\top \mathbf{w}$.
-When the weights are nonnegative
-and sum to $1$, i.e., $\left(\sum_{i=1}^{n} {w_i} = 1\right)$,
-the dot product expresses a *weighted average*.
-After normalizing two vectors to have unit length,
-the dot products express the cosine of the angle between them.
-Later in this section, we will formally introduce this notion of *length*.
+Dot products are useful in a wide range of contexts.  For example, given some
+set of values, denoted by a vector $$\mathbf{x}  \in \mathbb{R}^n$$, and a set
+of weights, denoted by $$\mathbf{w} \in \mathbb{R}^n$$, the weighted sum of the
+values in $$\mathbf{x}$$ according to the weights $$\mathbf{w}$$ could be
+expressed as the dot product $$\mathbf{x}^\top \mathbf{w}$$.  When the weights
+are nonnegative and sum to $$1$$, i.e., $$\left(\sum_{i=1}^{n} {w_i} =
+1\right)$$, the dot product expresses a *weighted average*.  After normalizing
+two vectors to have unit length, the dot products express the cosine of the
+angle between them.  Later in this section, we will formally introduce this
+notion of *length*.
 
 
 ## Matrix--Vector Products
