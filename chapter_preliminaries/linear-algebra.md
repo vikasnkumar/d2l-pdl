@@ -185,101 +185,73 @@ individual records and columns correspond to distinct attributes.
 
 ## Tensors
 
-While you can go far in your machine learning journey
-with only scalars, vectors, and matrices,
-eventually you may need to work with
-higher-order [**tensors**].
-Tensors (**give us a generic way of describing
-extensions to $n^{\textrm{th}}$-order arrays.**)
-We call software objects of the *tensor class* "tensors"
-precisely because they too can have arbitrary numbers of axes.
-While it may be confusing to use the word
-*tensor* for both the mathematical object
-and its realization in code,
-our meaning should usually be clear from context.
-We denote general tensors by capital letters
-with a special font face
-(e.g., $\mathsf{X}$, $\mathsf{Y}$, and $\mathsf{Z}$)
-and their indexing mechanism
-(e.g., $x_{ijk}$ and $[\mathsf{X}]_{1, 2i-1, 3}$)
-follows naturally from that of matrices.
+While you can go far in your machine learning journey with only scalars,
+vectors, and matrices, eventually you may need to work with higher-order
+_tensors_.  Tensors give us a generic way of describing extensions to
+$$n^{\textrm{th}}$$-order arrays. We call software objects of the _tensor
+class_ "tensors" precisely because they too can have arbitrary numbers of axes.
+While it may be confusing to use the word _tensor_ for both the mathematical
+object and its realization in code, our meaning should usually be clear from
+context.  We denote general tensors by capital letters with a special font face
+(e.g., $$\mathsf{X}$$, $$\mathsf{Y}$$, and $$\mathsf{Z}$$) and their indexing
+mechanism (e.g., $$x_{ijk}$$ and $$[\mathsf{X}]_{1, 2i-1, 3}$$) follows
+naturally from that of matrices.
 
-Tensors will become more important
-when we start working with images.
-Each image arrives as a $3^{\textrm{rd}}$-order tensor
-with axes corresponding to the height, width, and *channel*.
-At each spatial location, the intensities
-of each color (red, green, and blue)
-are stacked along the channel.
-Furthermore, a collection of images is represented
-in code by a $4^{\textrm{th}}$-order tensor,
-where distinct images are indexed
-along the first axis.
-Higher-order tensors are constructed, as were vectors and matrices,
-by growing the number of shape components.
+Tensors will become more important when we start working with images.  Each
+image arrives as a $$3^{\textrm{rd}}$$-order tensor with axes corresponding to
+the height, width, and _channel_.  At each spatial location, the intensities of
+each color (red, green, and blue) are stacked along the channel.  Furthermore, a
+collection of images is represented in code by a $$4^{\textrm{th}}$$-order
+tensor, where distinct images are indexed along the first axis.  Higher-order
+tensors are constructed, as were vectors and matrices, by growing the number of
+shape components.
 
-```{.python .input}
-%%tab mxnet
-np.arange(24).reshape(2, 3, 4)
-```
+**NOTE**: In `PDL` the order of the parameters to `reshape` are reverse that of in
+the `Python` equivalent.
 
-```{.python .input}
-%%tab pytorch
-torch.arange(24).reshape(2, 3, 4)
-```
+```perl
+pdl> print sequence(24)->reshape(4,3,2)
+[
+ [
+  [ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]
+ ]
+ [
+  [12 13 14 15]
+  [16 17 18 19]
+  [20 21 22 23]
+ ]
+]
 
-```{.python .input}
-%%tab tensorflow
-tf.reshape(tf.range(24), (2, 3, 4))
-```
-
-```{.python .input}
-%%tab jax
-jnp.arange(24).reshape(2, 3, 4)
 ```
 
 ## Basic Properties of Tensor Arithmetic
 
-Scalars, vectors, matrices,
-and higher-order tensors
-all have some handy properties.
-For example, elementwise operations
-produce outputs that have the
+Scalars, vectors, matrices, and higher-order tensors all have some handy
+properties.  For example, elementwise operations produce outputs that have the
 same shape as their operands.
 
-```{.python .input}
-%%tab mxnet
-A = np.arange(6).reshape(2, 3)
-B = A.copy()  # Assign a copy of A to B by allocating new memory
-A, A + B
+```perl
+pdl> $A = sequence(6)->reshape(3,2)
+### Assign a copy of $A to $B by allocating new memory
+pdl> $B = $A->copy
+pdl> print $A, $A+$B
+
+[
+ [0 1 2]
+ [3 4 5]
+]
+ 
+[
+ [ 0  2  4]
+ [ 6  8 10]
+]
 ```
 
-```{.python .input}
-%%tab pytorch
-A = torch.arange(6, dtype=torch.float32).reshape(2, 3)
-B = A.clone()  # Assign a copy of A to B by allocating new memory
-A, A + B
-```
-
-```{.python .input}
-%%tab tensorflow
-A = tf.reshape(tf.range(6, dtype=tf.float32), (2, 3))
-B = A  # No cloning of A to B by allocating new memory
-A, A + B
-```
-
-```{.python .input}
-%%tab jax
-A = jnp.arange(6, dtype=jnp.float32).reshape(2, 3)
-B = A
-A, A + B
-```
-
-The [**elementwise product of two matrices
-is called their *Hadamard product***] (denoted $\odot$).
-We can spell out the entries
-of the Hadamard product of two matrices
-$\mathbf{A}, \mathbf{B} \in \mathbb{R}^{m \times n}$:
+The elementwise product of two matrices is called their *Hadamard product*
+(denoted $$\odot$$).  We can spell out the entries of the Hadamard product of
+two matrices $$\mathbf{A}, \mathbf{B} \in \mathbb{R}^{m \times n}$$:
 
 
 
@@ -293,209 +265,175 @@ $$
 \end{bmatrix}.
 $$
 
-```{.python .input}
-%%tab all
-A * B
+```perl
+pdl> print $A * $B
+
+[
+ [ 0  1  4]
+ [ 9 16 25]
+]
 ```
 
-[**Adding or multiplying a scalar and a tensor**] produces a result
+Adding or multiplying a scalar and a tensor produces a result
 with the same shape as the original tensor.
 Here, each element of the tensor is added to (or multiplied by) the scalar.
 
-```{.python .input}
-%%tab mxnet
-a = 2
-X = np.arange(24).reshape(2, 3, 4)
-a + X, (a * X).shape
-```
+```perl
+pdl> print $a + $X, ($a * $X)->shape
 
-```{.python .input}
-%%tab pytorch
-a = 2
-X = torch.arange(24).reshape(2, 3, 4)
-a + X, (a * X).shape
-```
+[
+ [
+  [ 2  3  4  5]
+  [ 6  7  8  9]
+  [10 11 12 13]
+ ]
+ [
+  [14 15 16 17]
+  [18 19 20 21]
+  [22 23 24 25]
+ ]
+]
+ [4 3 2]
 
-```{.python .input}
-%%tab tensorflow
-a = 2
-X = tf.reshape(tf.range(24), (2, 3, 4))
-a + X, (a * X).shape
-```
-
-```{.python .input}
-%%tab jax
-a = 2
-X = jnp.arange(24).reshape(2, 3, 4)
-a + X, (a * X).shape
 ```
 
 ## Reduction
 
-Often, we wish to calculate [**the sum of a tensor's elements.**]
-To express the sum of the elements in a vector $\mathbf{x}$ of length $n$,
-we write $\sum_{i=1}^n x_i$. There is a simple function for it:
+Often, we wish to calculate the sum of a tensor's elements.  To express the sum
+of the elements in a vector $$\mathbf{x}$$ of length $$n$$, we write
+$$\sum_{i=1}^n x_i$$. There is a simple function for it:
 
-```{.python .input}
-%%tab mxnet
-x = np.arange(3)
-x, x.sum()
+```perl
+pdl> $x = sequence(3)
+pdl> print $x, $x->sum
+[0 1 2] 3
 ```
 
-```{.python .input}
-%%tab pytorch
-x = torch.arange(3, dtype=torch.float32)
-x, x.sum()
+To express sums over the elements of tensors of arbitrary shape, we simply sum
+over all its axes.  For example, the sum of the elements of an $$m \times n$$
+matrix $$\mathbf{A}$$ could be written $$\sum_{i=1}^{m} \sum_{j=1}^{n} a_{ij}$$.
+
+```perl
+pdl> print $A
+
+[
+ [0 1 2]
+ [3 4 5]
+]
+
+pdl> print $A->shape, $A->sum
+[3 2] 15
 ```
 
-```{.python .input}
-%%tab tensorflow
-x = tf.range(3, dtype=tf.float32)
-x, tf.reduce_sum(x)
+By default, invoking the sum function _reduces_ a tensor along all of its axes,
+eventually producing a scalar.  The `sumover` function allows us to specify the
+axes along which the tensor should be reduced.  To sum over all elements along
+the rows (dimension 0), we call `sumover` with no arguments.  Since the input
+matrix reduces along dimension 0 to generate the output vector, this dimension
+is missing from the shape of the output.
+
+```perl
+pdl> print $A->sumover, $A->sumover->shape
+[3 12] [2]
 ```
 
-```{.python .input}
-%%tab jax
-x = jnp.arange(3, dtype=jnp.float32)
-x, x.sum()
+If we want to reduce along the columns we call the `mv` function with the
+dimension we want to swap and call `sumover` on that. Here we _move_ dimensions
+0 and 1 and invoke `sumover` on the result.
+
+```perl
+pdl> print $A->mv(0,1)->sumover
+[3 5 7]
+## what the move looks like
+pdl> print $A->mv(0,1)
+
+[
+ [0 3]
+ [1 4]
+ [2 5]
+]
 ```
 
-To express [**sums over the elements of tensors of arbitrary shape**],
-we simply sum over all its axes.
-For example, the sum of the elements
-of an $m \times n$ matrix $\mathbf{A}$
-could be written $\sum_{i=1}^{m} \sum_{j=1}^{n} a_{ij}$.
+Another way is to use `transpose` with `sumover`.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.shape, A.sum()
+```perl
+pdl> print $A->transpose->sumover
+[3 5 7]
 ```
 
-```{.python .input}
-%%tab tensorflow
-A.shape, tf.reduce_sum(A)
+Reducing a matrix along both rows and columns via summation is equivalent to
+summing up all the elements of the matrix.
+
+```perl
+pdl> print $A->sumover
+[3 12]
+pdl> print $A->sumover->sum
+15
 ```
 
-By default, invoking the sum function
-*reduces* a tensor along all of its axes,
-eventually producing a scalar.
-Our libraries also allow us to [**specify the axes
-along which the tensor should be reduced.**]
-To sum over all elements along the rows (axis 0),
-we specify `axis=0` in `sum`.
-Since the input matrix reduces along axis 0
-to generate the output vector,
-this axis is missing from the shape of the output.
+A related quantity is the _mean_, also called the _average_.  We calculate the
+mean by dividing the sum by the total number of elements.  Because computing the
+mean is so common, it gets a dedicated library function that works analogously
+to `sum`. In `PDL` this function is `avg`. Likewise, the function `average` can
+also calculate the mean along specific dimensions.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.shape, A.sum(axis=0).shape
-```
-
-```{.python .input}
-%%tab tensorflow
-A.shape, tf.reduce_sum(A, axis=0).shape
-```
-
-Specifying `axis=1` will reduce the column dimension (axis 1) by summing up elements of all the columns.
-
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.shape, A.sum(axis=1).shape
-```
-
-```{.python .input}
-%%tab tensorflow
-A.shape, tf.reduce_sum(A, axis=1).shape
-```
-
-Reducing a matrix along both rows and columns via summation
-is equivalent to summing up all the elements of the matrix.
-
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.sum(axis=[0, 1]) == A.sum()  # Same as A.sum()
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_sum(A, axis=[0, 1]), tf.reduce_sum(A)  # Same as tf.reduce_sum(A)
-```
-
-[**A related quantity is the *mean*, also called the *average*.**]
-We calculate the mean by dividing the sum
-by the total number of elements.
-Because computing the mean is so common,
-it gets a dedicated library function
-that works analogously to `sum`.
-
-```{.python .input}
-%%tab mxnet, jax
-A.mean(), A.sum() / A.size
-```
-
-```{.python .input}
-%%tab pytorch
-A.mean(), A.sum() / A.numel()
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_mean(A), tf.reduce_sum(A) / tf.size(A).numpy()
-```
-
-Likewise, the function for calculating the mean
-can also reduce a tensor along specific axes.
-
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.mean(axis=0), A.sum(axis=0) / A.shape[0]
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_mean(A, axis=0), tf.reduce_sum(A, axis=0) / A.shape[0]
+```perl
+pdl> print $A->avg
+2.5
+pdl> print $A->average
+[1 4]
 ```
 
 ## Non-Reduction Sum
 
-Sometimes it can be useful to [**keep the number of axes unchanged**]
-when invoking the function for calculating the sum or mean.
-This matters when we want to use the broadcast mechanism.
+Sometimes it can be useful to keep the number of dimensions unchanged when
+invoking the function for calculating the sum or mean. This matters when we
+want to use the broadcast mechanism.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-sum_A = A.sum(axis=1, keepdims=True)
-sum_A, sum_A.shape
+```perl
+pdl> print $A
+[
+ [1 2 3]
+ [2 0 4]
+ [3 4 5]
+]
+pdl> print $A->sumover
+[6 6 12]
+pdl> $sumA = $A->sumover->transpose
+pdl> print $sumA
+[
+ [ 6]
+ [ 6]
+ [12]
+]
 ```
 
-```{.python .input}
-%%tab tensorflow
-sum_A = tf.reduce_sum(A, axis=1, keepdims=True)
-sum_A, sum_A.shape
+For instance, since `$sumA` keeps its two axes after summing each row, we can
+divide `$A` by `$sumA` with broadcasting to create a matrix where each row sums
+up to $$1$$.
+
+```perl
+pdl> print $A/$sumA
+
+[
+ [       0.16666667        0.33333333               0.5]
+ [       0.33333333                 0        0.66666667]
+ [             0.25        0.33333333        0.41666667]
+]
+ 
 ```
 
-For instance, since `sum_A` keeps its two axes after summing each row,
-we can (**divide `A` by `sum_A` with broadcasting**)
-to create a matrix where each row sums up to $1$.
-
-```{.python .input}
-%%tab all
-A / sum_A
-```
-
-If we want to calculate [**the cumulative sum of elements of `A` along some axis**],
-say `axis=0` (row by row), we can call the `cumsum` function.
+If we want to calculate the cumulative sum of elements of `$A` along some axis,
+say `dimension 0` (row by row), we can call the `cumusumover` function.
 By design, this function does not reduce the input tensor along any axis.
 
-```{.python .input}
-%%tab mxnet, pytorch, jax
-A.cumsum(axis=0)
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.cumsum(A, axis=0)
+```perl
+pdl> print $A->cumusumover
+[
+ [ 1  3  6]
+ [ 2  2  6]
+ [ 3  7 12]
+]
 ```
 
 ## Dot Products
