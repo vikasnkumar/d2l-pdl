@@ -86,8 +86,8 @@ To indicate that a vector contains $$n$$ elements, we write $$\mathbf{x} \in
 code, this corresponds to the tensor's length, accessible via the `length`
 function in `PDL`. The output of `length` is identical to `dims`, which is the
 generic dimensionality retrieval function.  The return value of `dims` is a
-tuple that indicates a tensor's length along each axis.  _Tensors with just one
-axis have shapes with just one element._ We can also use the `shape` function
+tuple that indicates a tensor's length along each dimension.  _Tensors with just one
+dimension have shapes with just one element._ We can also use the `shape` function
 to return a `PDL` object with the dimensions.
 
 ```perl
@@ -100,7 +100,7 @@ pdl> print $x->shape
 ```
 
 Oftentimes, the word "dimension" gets overloaded to mean both the number of axes
-and the length along a particular axis.  To avoid this confusion, we use *order*
+and the length along a particular dimension.  To avoid this confusion, we use *order*
 to refer to the number of axes and *dimensionality* exclusively to refer to the
 number of components.
 
@@ -202,7 +202,7 @@ image arrives as a $$3^{\textrm{rd}}$$-order tensor with axes corresponding to
 the height, width, and _channel_.  At each spatial location, the intensities of
 each color (red, green, and blue) are stacked along the channel.  Furthermore, a
 collection of images is represented in code by a $$4^{\textrm{th}}$$-order
-tensor, where distinct images are indexed along the first axis.  Higher-order
+tensor, where distinct images are indexed along the first dimension.  Higher-order
 tensors are constructed, as were vectors and matrices, by growing the number of
 shape components.
 
@@ -423,9 +423,9 @@ pdl> print $A/$sumA
 
 ```
 
-If we want to calculate the cumulative sum of elements of `$A` along some axis,
+If we want to calculate the cumulative sum of elements of `$A` along some dimension,
 say `dimension 0` (row by row), we can call the `cumusumover` function.
-By design, this function does not reduce the input tensor along any axis.
+By design, this function does not reduce the input tensor along any dimension.
 
 ```perl
 pdl> print $A->cumusumover
@@ -528,7 +528,7 @@ previous layer.
 
 To express a matrix--vector product in code, we use the same `inner` function.
 The operation is inferred based on the type of the arguments.  Note that the
-column dimension of `$A` (its length along axis 1) must be the same as the
+column dimension of `$A` (its length along dimension 1) must be the same as the
 dimension of `$x` (its length).
 
 ```perl
@@ -792,14 +792,14 @@ To recap:
 1. Prove that the transpose of the transpose of a matrix is the matrix itself: $$(\mathbf{A}^\top)^\top = \mathbf{A}$$.
 1. Given two matrices $$\mathbf{A}$$ and $$\mathbf{B}$$, show that sum and transposition commute: $$\mathbf{A}^\top + \mathbf{B}^\top = (\mathbf{A} + \mathbf{B})^\top$$.
 1. Given any square matrix $$\mathbf{A}$$, is $$\mathbf{A} + \mathbf{A}^\top$$ always symmetric? Can you prove the result by using only the results of the previous two exercises?
-1. We defined the tensor `X` of shape (2, 3, 4) in this section. What is the output of `len(X)`? Write your answer without implementing any code, then check your answer using code.
-1. For a tensor `X` of arbitrary shape, does `len(X)` always correspond to the length of a certain axis of `X`? What is that axis?
-1. Run `A / A.sum(axis=1)` and see what happens. Can you analyze the results?
+1. We defined the tensor `X` of shape (4, 3, 2) in this section. What is the output of `length(X)`? Write your answer without implementing any code, then check your answer using code.
+1. For a tensor `X` of arbitrary shape, does `length(X)` always correspond to the length of a certain dimension of `X`? What is that dimension?
+1. Run `$A / $A->sum()` and see what happens. Can you analyze the results?
 1. When traveling between two points in downtown Manhattan, what is the distance that you need to cover in terms of the coordinates, i.e., in terms of avenues and streets? Can you travel diagonally?
-1. Consider a tensor of shape (2, 3, 4). What are the shapes of the summation outputs along axes 0, 1, and 2?
-1. Feed a tensor with three or more axes to the `linalg.norm` function and observe its output. What does this function compute for tensors of arbitrary shape?
+1. Consider a tensor of shape (4, 3, 2). What are the shapes of the summation outputs along dimensions 0, 1, and 2?
+1. Feed a tensor with three or more dimensions to the `mnorm` function and observe its output. What does this function compute for tensors of arbitrary shape?
 1. Consider three large matrices, say $$\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$$, $$\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$$ and $$\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{14}}$$, initialized with Gaussian random variables. You want to compute the product $$\mathbf{A} \mathbf{B} \mathbf{C}$$. Is there any difference in memory footprint and speed, depending on whether you compute $$(\mathbf{A} \mathbf{B}) \mathbf{C}$$ or $$\mathbf{A} (\mathbf{B} \mathbf{C})$$? Why?
 1. Consider three large matrices, say $$\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$$, $$\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$$ and $$\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{16}}$$. Is there any difference in speed depending on whether you compute $$\mathbf{A} \mathbf{B}$$ or $$\mathbf{A} \mathbf{C}^\top$$? Why? What changes if you initialize $$\mathbf{C} = \mathbf{B}^\top$$ without cloning memory? Why?
-1. Consider three matrices, say $$\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$$. Construct a tensor with three axes by stacking $$[\mathbf{A}, \mathbf{B}, \mathbf{C}]$$. What is the dimensionality? Slice out the second coordinate of the third axis to recover $$\mathbf{B}$$. Check that your answer is correct.
+1. Consider three matrices, say $$\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$$. Construct a tensor with three axes by stacking $$[\mathbf{A}, \mathbf{B}, \mathbf{C}]$$. What is the dimensionality? Slice out the second coordinate of the third dimension to recover $$\mathbf{B}$$. Check that your answer is correct.
 
 [Next - Calculus](calculus.md)
