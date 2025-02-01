@@ -11,9 +11,9 @@ ramping up to matrix multiplication.
 Most everyday mathematics consists of manipulating numbers one at a time.
 Formally, we call these values _scalars_.  For example, the temperature in
 Orlando, Florida is a balmy $$72$$ degrees Fahrenheit.  If you wanted to convert
-the temperature to Celsius you would evaluate the expression $$c = \frac{5}{9}(f
-- 32)$$, setting $$f$$ to $$72$$.  In this equation, the values $$5$$, $$9$$,
-  and $$32$$ are constant scalars.  The variables $$c$$ and $$f$$ in general
+the temperature to Celsius you would evaluate the expression $$c = \frac{5}{9}(f - 32)$$,
+setting $$f$$ to $$72$$.  In this equation, the values $$5$$, $$9$$,
+and $$32$$ are constant scalars.  The variables $$c$$ and $$f$$ in general
 represent unknown scalars.
 
 We denote scalars by ordinary lower-cased letters (e.g., $$x$$, $$y$$, and
@@ -24,7 +24,7 @@ to say that $$x$$ is a real-valued scalar.  The symbol $$\in$$ (pronounced "in")
 denotes membership in a set.  For example, $$x, y \in \{0, 1\}$$ indicates that
 $$x$$ and $$y$$ are variables that can only take values $$0$$ or $$1$$.
 
-**Scalars are implemented as tensors that contain only one element.** Below, we
+Scalars are implemented as tensors that contain only one element. Below, we
 assign two scalars and perform the familiar addition, multiplication, division,
 and exponentiation operations.
 
