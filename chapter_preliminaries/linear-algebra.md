@@ -242,7 +242,7 @@ pdl> print $A, $A+$B
  [0 1 2]
  [3 4 5]
 ]
- 
+
 [
  [ 0  2  4]
  [ 6  8 10]
@@ -420,7 +420,7 @@ pdl> print $A/$sumA
  [       0.33333333                 0        0.66666667]
  [             0.25        0.33333333        0.41666667]
 ]
- 
+
 ```
 
 If we want to calculate the cumulative sum of elements of `$A` along some axis,
@@ -482,12 +482,10 @@ notion of *length*.
 
 ## Matrix--Vector Products
 
-Now that we know how to calculate dot products,
-we can begin to understand the *product*
-between an $m \times n$ matrix $\mathbf{A}$
-and an $n$-dimensional vector $\mathbf{x}$.
-To start off, we visualize our matrix
-in terms of its row vectors
+Now that we know how to calculate dot products, we can begin to understand the
+*product* between an $$m \times n$$ matrix $$\mathbf{A}$$ and an $$n$$-dimensional
+vector $$\mathbf{x}$$.  To start off, we visualize our matrix in terms of its row
+vectors
 
 $$\mathbf{A}=
 \begin{bmatrix}
@@ -497,14 +495,12 @@ $$\mathbf{A}=
 \mathbf{a}^\top_m \\
 \end{bmatrix},$$
 
-where each $\mathbf{a}^\top_{i} \in \mathbb{R}^n$
-is a row vector representing the $i^\textrm{th}$ row
-of the matrix $\mathbf{A}$.
+where each $$\mathbf{a}^\top_{i} \in \mathbb{R}^n$$ is a row vector representing
+the $$i^\textrm{th}$$ row of the matrix $$\mathbf{A}$$.
 
-[**The matrix--vector product $\mathbf{A}\mathbf{x}$
-is simply a column vector of length $m$,
-whose $i^\textrm{th}$ element is the dot product
-$\mathbf{a}^\top_i \mathbf{x}$:**]
+The matrix--vector product $$\mathbf{A}\mathbf{x}$$ is simply a column vector of
+length $$m$$, whose $$i^\textrm{th}$$ element is the dot product
+$$\mathbf{a}^\top_i \mathbf{x}$$:
 
 $$
 \mathbf{A}\mathbf{x}
@@ -522,77 +518,41 @@ $$
 \end{bmatrix}.
 $$
 
-We can think of multiplication with a matrix
-$\mathbf{A}\in \mathbb{R}^{m \times n}$
-as a transformation that projects vectors
-from $\mathbb{R}^{n}$ to $\mathbb{R}^{m}$.
-These transformations are remarkably useful.
-For example, we can represent rotations
-as multiplications by certain square matrices.
-Matrix--vector products also describe
-the key calculation involved in computing
-the outputs of each layer in a neural network
-given the outputs from the previous layer.
+We can think of multiplication with a matrix $$\mathbf{A}\in \mathbb{R}^{m
+\times n}$$ as a transformation that projects vectors from $$\mathbb{R}^{n}$$ to
+$$\mathbb{R}^{m}$$.  These transformations are remarkably useful.  For example,
+we can represent rotations as multiplications by certain square matrices.
+Matrix--vector products also describe the key calculation involved in computing
+the outputs of each layer in a neural network given the outputs from the
+previous layer.
 
-:begin_tab:`mxnet`
-To express a matrix--vector product in code,
-we use the same `dot` function.
-The operation is inferred
-based on the type of the arguments.
-Note that the column dimension of `A`
-(its length along axis 1)
-must be the same as the dimension of `x` (its length).
-:end_tab:
+To express a matrix--vector product in code, we use the same `inner` function.
+The operation is inferred based on the type of the arguments.  Note that the
+column dimension of `$A` (its length along axis 1) must be the same as the
+dimension of `$x` (its length).
 
-:begin_tab:`pytorch`
-To express a matrix--vector product in code,
-we use the `mv` function.
-Note that the column dimension of `A`
-(its length along axis 1)
-must be the same as the dimension of `x` (its length).
-Python has a convenience operator `@`
-that can execute both matrix--vector
-and matrix--matrix products
-(depending on its arguments).
-Thus we can write `A@x`.
-:end_tab:
-
-:begin_tab:`tensorflow`
-To express a matrix--vector product in code,
-we use the `matvec` function.
-Note that the column dimension of `A`
-(its length along axis 1)
-must be the same as the dimension of `x` (its length).
-:end_tab:
-
-```{.python .input}
-%%tab mxnet
-A.shape, x.shape, np.dot(A, x)
-```
-
-```{.python .input}
-%%tab pytorch
-A.shape, x.shape, torch.mv(A, x), A@x
-```
-
-```{.python .input}
-%%tab tensorflow
-A.shape, x.shape, tf.linalg.matvec(A, x)
-```
-
-```{.python .input}
-%%tab jax
-A.shape, x.shape, jnp.matmul(A, x)
+```perl
+pdl> print $x
+[0 1 2]
+pdl> print $A
+[
+ [ 0  2  6]
+ [ 0  0  8]
+ [ 0  4 10]
+]
+pdl> print $A->shape, $x->shape
+[3 3] [3]
+pdl> print inner($A, $x)
+[8 8 14]
 ```
 
 ## Matrix--Matrix Multiplication
 
-Once you have gotten the hang of dot products and matrix--vector products,
-then *matrix--matrix multiplication* should be straightforward.
+Once you have gotten the hang of dot products and matrix--vector products, then
+*matrix--matrix multiplication* should be straightforward.
 
-Say that we have two matrices
-$\mathbf{A} \in \mathbb{R}^{n \times k}$
-and $\mathbf{B} \in \mathbb{R}^{k \times m}$:
+Say that we have two matrices $$\mathbf{A} \in \mathbb{R}^{n \times k}$$ and
+$$\mathbf{B} \in \mathbb{R}^{k \times m}$$:
 
 $$\mathbf{A}=\begin{bmatrix}
  a_{11} & a_{12} & \cdots & a_{1k} \\
@@ -608,12 +568,10 @@ $$\mathbf{A}=\begin{bmatrix}
 \end{bmatrix}.$$
 
 
-Let $\mathbf{a}^\top_{i} \in \mathbb{R}^k$ denote
-the row vector representing the $i^\textrm{th}$ row
-of the matrix $\mathbf{A}$
-and let $\mathbf{b}_{j} \in \mathbb{R}^k$ denote
-the column vector from the $j^\textrm{th}$ column
-of the matrix $\mathbf{B}$:
+Let $$\mathbf{a}^\top_{i} \in \mathbb{R}^k$$ denote the row vector representing
+the $$i^\textrm{th}$$ row of the matrix $$\mathbf{A}$$ and let $$\mathbf{b}_{j} \in
+\mathbb{R}^k$$ denote the column vector from the $$j^\textrm{th}$$ column of the
+matrix $$\mathbf{B}$$:
 
 $$\mathbf{A}=
 \begin{bmatrix}
@@ -628,12 +586,10 @@ $$\mathbf{A}=
 $$
 
 
-To form the matrix product $\mathbf{C} \in \mathbb{R}^{n \times m}$,
-we simply compute each element $c_{ij}$
-as the dot product between
-the $i^{\textrm{th}}$ row of $\mathbf{A}$
-and the $j^{\textrm{th}}$ column of $\mathbf{B}$,
-i.e., $\mathbf{a}^\top_i \mathbf{b}_j$:
+To form the matrix product $$\mathbf{C} \in \mathbb{R}^{n \times m}$$, we simply
+compute each element $$c_{ij}$$ as the dot product between the $$i^{\textrm{th}}$$
+row of $$\mathbf{A}$$ and the $$j^{\textrm{th}}$$ column of $$\mathbf{B}$$, i.e.,
+$$\mathbf{a}^\top_i \mathbf{b}_j$$:
 
 $$\mathbf{C} = \mathbf{AB} = \begin{bmatrix}
 \mathbf{a}^\top_{1} \\
@@ -652,222 +608,164 @@ $$\mathbf{C} = \mathbf{AB} = \begin{bmatrix}
 \end{bmatrix}.
 $$
 
-[**We can think of the matrix--matrix multiplication $\mathbf{AB}$
-as performing $m$ matrix--vector products
-or $m \times n$ dot products
-and stitching the results together
-to form an $n \times m$ matrix.**]
-In the following snippet,
-we perform matrix multiplication on `A` and `B`.
-Here, `A` is a matrix with two rows and three columns,
-and `B` is a matrix with three rows and four columns.
-After multiplication, we obtain a matrix with two rows and four columns.
+We can think of the matrix--matrix multiplication $$\mathbf{AB}$$ as performing
+$$m$$ matrix--vector products or $$m \times n$$ dot products and stitching the
+results together to form an $$n \times m$$ matrix.  In the following snippet, we
+perform matrix multiplication on `$A` and `$B`.  Here, `$A` is a matrix with two
+rows and three columns, and `$B` is a matrix with three rows and four columns.
+After multiplication, we obtain a matrix with two rows and four columns.  In
+`PDL`, this can be accomplished by the operator `x` or the function `matmult`.
 
-```{.python .input}
-%%tab mxnet
-B = np.ones(shape=(3, 4))
-np.dot(A, B)
+```
+pdl> $A = sequence(6)->reshape(3,2)
+[
+ [0 1 2]
+ [3 4 5]
+]
+pdl> $B = ones(4,3)
+pdl> print $B
+
+[
+ [1 1 1 1]
+ [1 1 1 1]
+ [1 1 1 1]
+]
+pdl> print matmult($A,$B)
+[
+ [ 3  3  3  3]
+ [12 12 12 12]
+]
+pdl> print $A x $B
+[
+ [ 3  3  3  3]
+ [12 12 12 12]
+]
+
 ```
 
-```{.python .input}
-%%tab pytorch
-B = torch.ones(3, 4)
-torch.mm(A, B), A@B
-```
-
-```{.python .input}
-%%tab tensorflow
-B = tf.ones((3, 4), tf.float32)
-tf.matmul(A, B)
-```
-
-```{.python .input}
-%%tab jax
-B = jnp.ones((3, 4))
-jnp.matmul(A, B)
-```
-
-The term *matrix--matrix multiplication* is
-often simplified to *matrix multiplication*,
-and should not be confused with the Hadamard product.
+The term *matrix--matrix multiplication* is often simplified to *matrix
+multiplication*, and should not be confused with the Hadamard product.
 
 
 ## Norms
 
-Some of the most useful operators in linear algebra are *norms*.
-Informally, the norm of a vector tells us how *big* it is.
-For instance, the $\ell_2$ norm measures
-the (Euclidean) length of a vector.
-Here, we are employing a notion of *size* that concerns the magnitude of a vector's components
-(not its dimensionality).
+Some of the most useful operators in linear algebra are *norms*.  Informally,
+the norm of a vector tells us how *big* it is.  For instance, the $$\ell_2$$
+norm measures the (Euclidean) length of a vector.  Here, we are employing a
+notion of *size* that concerns the magnitude of a vector's components (not its
+dimensionality).
 
-A norm is a function $\| \cdot \|$ that maps a vector
-to a scalar and satisfies the following three properties:
+A norm is a function $$\| \cdot \|$$ that maps a vector to a scalar and
+satisfies the following three properties:
 
-1. Given any vector $\mathbf{x}$, if we scale (all elements of) the vector
-   by a scalar $\alpha \in \mathbb{R}$, its norm scales accordingly:
+1. Given any vector $$\mathbf{x}$$, if we scale (all elements of) the vector
+   by a scalar $$\alpha \in \mathbb{R}$$, its norm scales accordingly:
    $$\|\alpha \mathbf{x}\| = |\alpha| \|\mathbf{x}\|.$$
-2. For any vectors $\mathbf{x}$ and $\mathbf{y}$:
+2. For any vectors $$\mathbf{x}$$ and $$\mathbf{y}$$:
    norms satisfy the triangle inequality:
    $$\|\mathbf{x} + \mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|.$$
 3. The norm of a vector is nonnegative and it only vanishes if the vector is zero:
    $$\|\mathbf{x}\| > 0 \textrm{ for all } \mathbf{x} \neq 0.$$
 
-Many functions are valid norms and different norms
-encode different notions of size.
-The Euclidean norm that we all learned in elementary school geometry
-when calculating the hypotenuse of a right triangle
-is the square root of the sum of squares of a vector's elements.
-Formally, this is called [**the $\ell_2$ *norm***] and expressed as
+Many functions are valid norms and different norms encode different notions of
+size.  The Euclidean norm that we all learned in elementary school geometry when
+calculating the hypotenuse of a right triangle is the square root of the sum of
+squares of a vector's elements.  Formally, this is called the $$\ell_2$$ _norm_
+and expressed as
 
-(**$$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}.$$**)
+$$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}.$$
 
-The method `norm` calculates the $\ell_2$ norm.
+The method `magnover` calculates the $$\ell_2$$ norm in `PDL`. This is different
+from the `norm` function in `PDL` which
+[normalizes](https://metacpan.org/pod/PDL::Primitive#norm) a vector.
+For matrices, in `PDL` you have to use the `mnorm` function available in
+the `PDL::LinearAlgebra` module. So maybe it makes sense to use `mnorm` for
+vectors too.
 
-```{.python .input}
-%%tab mxnet
-u = np.array([3, -4])
-np.linalg.norm(u)
+```perl
+pdl> print pdl([3, -4])->magnover
+5
+pdl> use PDL::LinearAlgebra
+pdl> print pdl([3, -4])->mnorm
+5
 ```
 
-```{.python .input}
-%%tab pytorch
-u = torch.tensor([3.0, -4.0])
-torch.norm(u)
+The $$\ell_1$$ norm is also common and the associated measure is called the
+Manhattan distance.  By definition, the $$\ell_1$$ norm sums the absolute values
+of a vector's elements:
+
+$$\|\mathbf{x}\|_1 = \sum_{i=1}^n \left|x_i \right|.$$
+
+Compared to the $$\ell_2$$ norm, it is less sensitive to outliers.  To compute
+the $$\ell_1$$ norm, we compose the absolute value with the sum operation.
+
+```perl
+pdl> print pdl([[3, -4]])->abs->sumover
+[7]
 ```
 
-```{.python .input}
-%%tab tensorflow
-u = tf.constant([3.0, -4.0])
-tf.norm(u)
-```
-
-```{.python .input}
-%%tab jax
-u = jnp.array([3.0, -4.0])
-jnp.linalg.norm(u)
-```
-
-[**The $\ell_1$ norm**] is also common
-and the associated measure is called the Manhattan distance.
-By definition, the $\ell_1$ norm sums
-the absolute values of a vector's elements:
-
-(**$$\|\mathbf{x}\|_1 = \sum_{i=1}^n \left|x_i \right|.$$**)
-
-Compared to the $\ell_2$ norm, it is less sensitive to outliers.
-To compute the $\ell_1$ norm,
-we compose the absolute value
-with the sum operation.
-
-```{.python .input}
-%%tab mxnet
-np.abs(u).sum()
-```
-
-```{.python .input}
-%%tab pytorch
-torch.abs(u).sum()
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.reduce_sum(tf.abs(u))
-```
-
-```{.python .input}
-%%tab jax
-jnp.linalg.norm(u, ord=1) # same as jnp.abs(u).sum()
-```
-
-Both the $\ell_2$ and $\ell_1$ norms are special cases
-of the more general $\ell_p$ *norms*:
+Both the $$\ell_2$$ and $$\ell_1$$ norms are special cases of the more general
+$$\ell_p$$ _norms_:
 
 $$\|\mathbf{x}\|_p = \left(\sum_{i=1}^n \left|x_i \right|^p \right)^{1/p}.$$
 
-In the case of matrices, matters are more complicated.
-After all, matrices can be viewed both as collections of individual entries
-*and* as objects that operate on vectors and transform them into other vectors.
-For instance, we can ask by how much longer
-the matrix--vector product $\mathbf{X} \mathbf{v}$
-could be relative to $\mathbf{v}$.
-This line of thought leads to what is called the *spectral* norm.
-For now, we introduce [**the *Frobenius norm*,
-which is much easier to compute**] and defined as
-the square root of the sum of the squares
-of a matrix's elements:
+In the case of matrices, matters are more complicated.  After all, matrices can
+be viewed both as collections of individual entries _and_ as objects that
+operate on vectors and transform them into other vectors.  For instance, we can
+ask by how much longer the matrix--vector product $$\mathbf{X} \mathbf{v}$$
+could be relative to $$\mathbf{v}$$.  This line of thought leads to what is
+called the *spectral* norm.  For now, we introduce the *Frobenius norm*, which
+is much easier to compute and defined as the square root of the sum of the
+squares of a matrix's elements:
 
-[**$$\|\mathbf{X}\|_\textrm{F} = \sqrt{\sum_{i=1}^m \sum_{j=1}^n x_{ij}^2}.$$**]
+$$\|\mathbf{X}\|_\textrm{F} = \sqrt{\sum_{i=1}^m \sum_{j=1}^n x_{ij}^2}.$$
 
-The Frobenius norm behaves as if it were
-an $\ell_2$ norm of a matrix-shaped vector.
-Invoking the following function will calculate
-the Frobenius norm of a matrix.
+The Frobenius norm behaves as if it were an $$\ell_2$$ norm of a matrix-shaped
+vector.  Invoking the following function will calculate the Frobenius norm of a
+matrix.
 
-```{.python .input}
-%%tab mxnet
-np.linalg.norm(np.ones((4, 9)))
+```perl
+pdl> use PDL::LinearAlgebra
+pdl> print ones(9,4)->mnorm
+6
 ```
 
-```{.python .input}
-%%tab pytorch
-torch.norm(torch.ones((4, 9)))
-```
-
-```{.python .input}
-%%tab tensorflow
-tf.norm(tf.ones((4, 9)))
-```
-
-```{.python .input}
-%%tab jax
-jnp.linalg.norm(jnp.ones((4, 9)))
-```
-
-While we do not want to get too far ahead of ourselves,
-we already can plant some intuition about why these concepts are useful.
-In deep learning, we are often trying to solve optimization problems:
-*maximize* the probability assigned to observed data;
-*maximize* the revenue associated with a recommender model;
-*minimize* the distance between predictions
-and the ground truth observations;
-*minimize* the distance between representations
-of photos of the same person
-while *maximizing* the distance between representations
-of photos of different people.
-These distances, which constitute
-the objectives of deep learning algorithms,
-are often expressed as norms.
+While we do not want to get too far ahead of ourselves, we already can plant
+some intuition about why these concepts are useful.  In deep learning, we are
+often trying to solve optimization problems: _maximize_ the probability assigned
+to observed data; _maximize_ the revenue associated with a recommender model;
+_minimize_ the distance between predictions and the ground truth observations;
+_minimize_ the distance between representations of photos of the same person
+while _maximizing_ the distance between representations of photos of different
+people.  These distances, which constitute the objectives of deep learning
+algorithms, are often expressed as norms.
 
 
 ## Discussion
 
-In this section, we have reviewed all the linear algebra
-that you will need to understand
-a significant chunk of modern deep learning.
-There is a lot more to linear algebra, though,
-and much of it is useful for machine learning.
-For example, matrices can be decomposed into factors,
-and these decompositions can reveal
-low-dimensional structure in real-world datasets.
-There are entire subfields of machine learning
-that focus on using matrix decompositions
-and their generalizations to high-order tensors
-to discover structure in datasets
-and solve prediction problems.
-But this book focuses on deep learning.
-And we believe you will be more inclined
-to learn more mathematics
-once you have gotten your hands dirty
-applying machine learning to real datasets.
-So while we reserve the right
-to introduce more mathematics later on,
-we wrap up this section here.
+In this section, we have reviewed all the linear algebra that you will need to
+understand a significant chunk of modern deep learning.  There is a lot more to
+linear algebra, though, and much of it is useful for machine learning.  For
+example, matrices can be decomposed into factors, and these decompositions can
+reveal low-dimensional structure in real-world datasets.  There are entire
+subfields of machine learning that focus on using matrix decompositions and
+their generalizations to high-order tensors to discover structure in datasets
+and solve prediction problems.  But this book focuses on deep learning.  And we
+believe you will be more inclined to learn more mathematics once you have gotten
+your hands dirty applying machine learning to real datasets.  So while we
+reserve the right to introduce more mathematics later on, we wrap up this
+section here.
 
-If you are eager to learn more linear algebra,
-there are many excellent books and online resources.
-For a more advanced crash course, consider checking out
-:citet:`Strang.1993`, :citet:`Kolter.2008`, and :citet:`Petersen.Pedersen.ea.2008`.
+If you are eager to learn more linear algebra, there are many excellent books
+and online resources.  For a more advanced crash course, consider checking out
+[Introduction to Linear Algebra by Strang
+(1993)](https://www.abebooks.com/Introduction-Linear-Algebra-Gilbert-Strang-Brand/31821496156/bd),
+[Linear Algebra Review and Reference by Kolter
+(2008)](http://cs229.stanford.edu/section/cs229-linalg.pdf) and [The Matrix
+Cookbook by Petersen & Pedersen
+(2008)](https://www.cs.toronto.edu/~bonner/courses/2018s/csc338/matrix_cookbook.pdf)([archive.org
+link to
+pdf](https://archive.org/download/K_B_Petersen_and_M_S_Peders__The_Matrix_Cookbook/matrixcookbook.pdf)).
 
 To recap:
 
@@ -885,22 +783,23 @@ To recap:
 * Norms capture various notions of the magnitude of a vector (or matrix),
   and are commonly applied to the difference of two vectors
   to measure their distance apart.
-* Common vector norms include the $\ell_1$ and $\ell_2$ norms,
+* Common vector norms include the $$\ell_1$$ and $$\ell_2$$ norms,
    and common matrix norms include the *spectral* and *Frobenius* norms.
 
 
 ## Exercises
 
-1. Prove that the transpose of the transpose of a matrix is the matrix itself: $(\mathbf{A}^\top)^\top = \mathbf{A}$.
-1. Given two matrices $\mathbf{A}$ and $\mathbf{B}$, show that sum and transposition commute: $\mathbf{A}^\top + \mathbf{B}^\top = (\mathbf{A} + \mathbf{B})^\top$.
-1. Given any square matrix $\mathbf{A}$, is $\mathbf{A} + \mathbf{A}^\top$ always symmetric? Can you prove the result by using only the results of the previous two exercises?
+1. Prove that the transpose of the transpose of a matrix is the matrix itself: $$(\mathbf{A}^\top)^\top = \mathbf{A}$$.
+1. Given two matrices $$\mathbf{A}$$ and $$\mathbf{B}$$, show that sum and transposition commute: $$\mathbf{A}^\top + \mathbf{B}^\top = (\mathbf{A} + \mathbf{B})^\top$$.
+1. Given any square matrix $$\mathbf{A}$$, is $$\mathbf{A} + \mathbf{A}^\top$$ always symmetric? Can you prove the result by using only the results of the previous two exercises?
 1. We defined the tensor `X` of shape (2, 3, 4) in this section. What is the output of `len(X)`? Write your answer without implementing any code, then check your answer using code.
 1. For a tensor `X` of arbitrary shape, does `len(X)` always correspond to the length of a certain axis of `X`? What is that axis?
 1. Run `A / A.sum(axis=1)` and see what happens. Can you analyze the results?
 1. When traveling between two points in downtown Manhattan, what is the distance that you need to cover in terms of the coordinates, i.e., in terms of avenues and streets? Can you travel diagonally?
 1. Consider a tensor of shape (2, 3, 4). What are the shapes of the summation outputs along axes 0, 1, and 2?
 1. Feed a tensor with three or more axes to the `linalg.norm` function and observe its output. What does this function compute for tensors of arbitrary shape?
-1. Consider three large matrices, say $\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$, $\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$ and $\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{14}}$, initialized with Gaussian random variables. You want to compute the product $\mathbf{A} \mathbf{B} \mathbf{C}$. Is there any difference in memory footprint and speed, depending on whether you compute $(\mathbf{A} \mathbf{B}) \mathbf{C}$ or $\mathbf{A} (\mathbf{B} \mathbf{C})$? Why?
-1. Consider three large matrices, say $\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$, $\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$ and $\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{16}}$. Is there any difference in speed depending on whether you compute $\mathbf{A} \mathbf{B}$ or $\mathbf{A} \mathbf{C}^\top$? Why? What changes if you initialize $\mathbf{C} = \mathbf{B}^\top$ without cloning memory? Why?
-1. Consider three matrices, say $\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$. Construct a tensor with three axes by stacking $[\mathbf{A}, \mathbf{B}, \mathbf{C}]$. What is the dimensionality? Slice out the second coordinate of the third axis to recover $\mathbf{B}$. Check that your answer is correct.
+1. Consider three large matrices, say $$\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$$, $$\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$$ and $$\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{14}}$$, initialized with Gaussian random variables. You want to compute the product $$\mathbf{A} \mathbf{B} \mathbf{C}$$. Is there any difference in memory footprint and speed, depending on whether you compute $$(\mathbf{A} \mathbf{B}) \mathbf{C}$$ or $$\mathbf{A} (\mathbf{B} \mathbf{C})$$? Why?
+1. Consider three large matrices, say $$\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$$, $$\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$$ and $$\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{16}}$$. Is there any difference in speed depending on whether you compute $$\mathbf{A} \mathbf{B}$$ or $$\mathbf{A} \mathbf{C}^\top$$? Why? What changes if you initialize $$\mathbf{C} = \mathbf{B}^\top$$ without cloning memory? Why?
+1. Consider three matrices, say $$\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$$. Construct a tensor with three axes by stacking $$[\mathbf{A}, \mathbf{B}, \mathbf{C}]$$. What is the dimensionality? Slice out the second coordinate of the third axis to recover $$\mathbf{B}$$. Check that your answer is correct.
 
+[Next - Calculus](calculus.md)
