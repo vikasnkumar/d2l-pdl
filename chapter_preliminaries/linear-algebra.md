@@ -802,4 +802,4 @@ To recap:
 1. Consider three large matrices, say $$\mathbf{A} \in \mathbb{R}^{2^{10} \times 2^{16}}$$, $$\mathbf{B} \in \mathbb{R}^{2^{16} \times 2^{5}}$$ and $$\mathbf{C} \in \mathbb{R}^{2^{5} \times 2^{16}}$$. Is there any difference in speed depending on whether you compute $$\mathbf{A} \mathbf{B}$$ or $$\mathbf{A} \mathbf{C}^\top$$? Why? What changes if you initialize $$\mathbf{C} = \mathbf{B}^\top$$ without cloning memory? Why?
 1. Consider three matrices, say $$\mathbf{A}, \mathbf{B}, \mathbf{C} \in \mathbb{R}^{100 \times 200}$$. Construct a tensor with three axes by stacking $$[\mathbf{A}, \mathbf{B}, \mathbf{C}]$$. What is the dimensionality? Slice out the second coordinate of the third dimension to recover $$\mathbf{B}$$. Check that your answer is correct.
 
-[Next - Calculus](calculus.md)
+[Next - Calculus](calculus.md) [Previous - Data Pre-processing](preprocessing.md)

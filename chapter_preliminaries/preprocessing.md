@@ -349,4 +349,4 @@ you try it out on a server?
    if the category labels are all unique? Should you include the latter?
 
 
-[Next - Linear Algebra](linear-algebra.md)
+[Next - Linear Algebra](linear-algebra.md) [Previous - Data Manipulation](ndarray.md)
