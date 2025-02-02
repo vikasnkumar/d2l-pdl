@@ -701,4 +701,4 @@ pdl> print $a + $b
 
 ```
 
-[Next - Data Pre-processing](preprocessing.md) [Previous - Preliminaries](index.md)
+[Next - Data Pre-processing](preprocessing.md) | [Previous - Preliminaries](index.md)

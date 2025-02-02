@@ -109,4 +109,4 @@ $$0$$ otherwise
 * $$D_{\textrm{KL}}(P\|Q)$$: the KL-divergence (or relative entropy) from
   distribution $$Q$$ to distribution $$P$$
 
-[Next - Preliminaries](../chapter_preliminaries/index.md) [Previous - Installation](../chapter_installation/index.md)
+[Next - Preliminaries](../chapter_preliminaries/index.md) | [Previous - Installation](../chapter_installation/index.md)
